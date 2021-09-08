@@ -12,3 +12,12 @@ registro REG_VACUNACION
     DOSIS_RECIBIDA          es anumerico
 fin_registro
 prefijo VAC
+
+CUERPO PRINCIPAL 
+inicio 
+    ejecutar PROCESO_INICIAL 
+    mientras VACUNACION_NRO_DOCUMENTO <> 0 
+        ejecutar PROCESO_PRINCIPAL 
+    fin_mientras 
+    ejecutar PROCESO_FINAL 
+fin

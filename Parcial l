@@ -1,5 +1,12 @@
 Objetivo: Informe de la cantidad de personas registradas que recibieron ambas dosis, una o ninguna por cada region.
-
-
-
-
+ENTORNO:
+archivo VACUNACION
+registro REG_VACUNACION
+    NRO_DOCUMENTO           es numerico
+    NOMBRE_APELLIDO         es alfanumerico
+    FECHA_NACIMIENTO        es alfanumerico
+    REGION_SANITARIA        es alfanumerico
+    VACUNA_RECIBIDA         es anumerico
+    DOSIS_RECIBIDA          es anumerico
+fin_registro
+prefijo VAC

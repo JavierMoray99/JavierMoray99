@@ -21,3 +21,35 @@ inicio
     fin_mientras 
     ejecutar PROCESO_FINAL 
 fin
+RUTINAS
+
+PROCESO_INICIAL: 
+    imprimir “Resumen de cantidad de personas registradas que recibieron una, dos o ninguna dosis de cada región del pais” 
+    ejecutar INICIALIZAR_MATRIZ 
+    ejecutar ABRIR_ARCHIVO_VACUNACION
+    ejecutar LEER_SGTE_VACUNACION 
+retorno 
+PROCESO_PRINCIPAL: 
+    ejecutar DETERMINAR_POSICION 
+    ejecutar PROCESAR_VACUNACION 
+    ejecutar LEER_SGTE_VACUNACION
+retorno
+PROCESO_FINAL: 
+    ejecutar IMPRIMIR_CUADRO 
+    ejecutar CERRAR_ARCHIVO_VACUNACION 
+    imprimir “** FIN DEL PROCESO **” 
+retorno     
+INICIALIZAR_MATRIZ: 
+    desde F=1 hasta 20 
+        desde C=1 hasta 19 
+            MAT_SUELDOS(F,C) = 0 
+        fin_desde
+    fin_desde
+retorno
+LEER_SGTE_ EMPLEADO: 
+si eof(VACUNACION) 
+    VAC_NRO_DOCUMENTO = 0 
+ sino 
+    leer REG_VACUNACION 
+fin_si 
+retorno

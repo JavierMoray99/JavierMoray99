@@ -99,33 +99,33 @@ IMPRIMIR_CUADRO:
 retorno 
 
 PREPARAR_TITULOS:
-imprimir "     VACUNA RECIBIDA                                                                                                                               TOTALES    "
-imprimrir "     
-            NINGUNA    ASTRAZENECA      CORONAVAX       COVAXIN          MODERNA        PFIZER       SINOPHARM       SPUTNIKV        CANTIDAD TOTAL          PROMEDIO DE
-                        UNA  DOS         UNA  DOS        UNA  DOS          UNA  DOS       UNA  DOS    UNA  DOS        UNA  DOS       TOTAL DE PERSONAS          EDADES   
-                                                                                                                                        UNA DOS                 UNA DOS                                                                         "
-imprimir "    Dosis      
-Región          "
-VEC_TITULO(1)= "I - CONCEPCIÓN "
-VEC_TITULO(2)= "II - SAN PEDRO "
-VEC_TITULO(3)= "III - CORDILLERA "
-VEC_TITULO(4)= "IV - GUAIRÁ "
-VEC_TITULO(5)= "V -  CAAGUAZÚ "
-VEC_TITULO(6)= "VI - CAAZAPÁ "
-VEC_TITULO(7)= "VII - ITAPÚA "
-VEC_TITULO(8)= "VIII -  MISIONES "
-VEC_TITULO(9)= "IX - PARAGUARÍ "
-VEC_TITULO(10)= "X -  ALTO PARANÁ "
-VEC_TITULO(11)= "XI - CENTRAL "
-VEC_TITULO(12)= "XII - ÑEEMBUCÚ "
-VEC_TITULO(13)= "XIII -  AMAMBAY "
-VEC_TITULO(14)= "XIV - CANINDEYÚ "
-VEC_TITULO(15)= "XV -  PRESIDENTE HAYES "
-VEC_TITULO(16)= "XVI -  BOQUERÓN "
-VEC_TITULO(17)= "XVII - ALTO PARAGUAY "
-VEC_TITULO(18)= "* TOTAL INTERIOR * "
-VEC_TITULO(19)= "XVIII – CAPITAL "
-VEC_TITULO(20)= "*TOTAL GENERAL* "
+	imprimir "     VACUNA RECIBIDA                                                                                                                               TOTALES    "
+	imprimrir "     
+		    NINGUNA    ASTRAZENECA      CORONAVAX       COVAXIN          MODERNA        PFIZER       SINOPHARM       SPUTNIKV        CANTIDAD TOTAL          PROMEDIO DE
+				UNA  DOS         UNA  DOS        UNA  DOS          UNA  DOS       UNA  DOS    UNA  DOS        UNA  DOS       TOTAL DE PERSONAS          EDADES   
+																		UNA DOS                 UNA DOS                                                                         "
+	imprimir "    Dosis      
+	Región          "
+	VEC_TITULO(1)= "I - CONCEPCIÓN "
+	VEC_TITULO(2)= "II - SAN PEDRO "
+	VEC_TITULO(3)= "III - CORDILLERA "
+	VEC_TITULO(4)= "IV - GUAIRÁ "
+	VEC_TITULO(5)= "V -  CAAGUAZÚ "
+	VEC_TITULO(6)= "VI - CAAZAPÁ "
+	VEC_TITULO(7)= "VII - ITAPÚA "
+	VEC_TITULO(8)= "VIII -  MISIONES "
+	VEC_TITULO(9)= "IX - PARAGUARÍ "
+	VEC_TITULO(10)= "X -  ALTO PARANÁ "
+	VEC_TITULO(11)= "XI - CENTRAL "
+	VEC_TITULO(12)= "XII - ÑEEMBUCÚ "
+	VEC_TITULO(13)= "XIII -  AMAMBAY "
+	VEC_TITULO(14)= "XIV - CANINDEYÚ "
+	VEC_TITULO(15)= "XV -  PRESIDENTE HAYES "
+	VEC_TITULO(16)= "XVI -  BOQUERÓN "
+	VEC_TITULO(17)= "XVII - ALTO PARAGUAY "
+	VEC_TITULO(18)= "* TOTAL INTERIOR * "
+	VEC_TITULO(19)= "XVIII – CAPITAL "
+	VEC_TITULO(20)= "*TOTAL GENERAL* "
 
 retorno
 IMPRIMIR_DETALLE: 

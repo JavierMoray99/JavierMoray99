@@ -1,5 +1,10 @@
 Objetivo: Informe de la cantidad de personas registradas que recibieron ambas dosis, una o ninguna por cada region.
 ENTORNO:
+MAT_VACUNACIION es tabla (20, 19) numérica 
+VEC_TITULO es tabla (20) alfanumérica 
+F es numérico 
+C es numérico 
+FSTOTAL es numérico 
 
 archivo VACUNACION
 registro REG_VACUNACION
@@ -9,7 +14,7 @@ registro REG_VACUNACION
     FECHA_NACIMIENTO        es alfanumerico
     REGION_SANITARIA        es alfanumerico
     VACUNA_RECIBIDA         es anumerico
-    DOSIS_RECIBIDA          es anumerico
+    DOSIS_RECIBIDAS         es anumerico
 fin_registro
 prefijo VAC
 
@@ -35,6 +40,7 @@ PROCESO_PRINCIPAL:
     ejecutar LEER_SGTE_VACUNACION
 retorno
 PROCESO_FINAL: 
+    ejecutar CALCULAR_PROMEDIO_EDAD
     ejecutar IMPRIMIR_CUADRO 
     ejecutar CERRAR_ARCHIVO_VACUNACION 
     imprimir “** FIN DEL PROCESO **” 
@@ -42,14 +48,97 @@ retorno
 INICIALIZAR_MATRIZ: 
     desde F=1 hasta 20 
         desde C=1 hasta 19 
-            MAT_SUELDOS(F,C) = 0 
+            MAT_VACUNACION(F,C) = 0 
         fin_desde
     fin_desde
 retorno
-LEER_SGTE_ EMPLEADO: 
+LEER_SGTE_ VACUNACION: 
 si eof(VACUNACION) 
     VAC_NRO_DOCUMENTO = 0 
  sino 
     leer REG_VACUNACION 
 fin_si 
 retorno
+DETERMINAR_POSICION:
+    Si REGION= 18	
+        F=19	
+    Sino	
+        F= REGION	
+    fin_si
+    Si DOSIS_RECIBIDA=0			
+        C= 1			
+    sino			
+        C= VACUNA_RECIBIDA+(DOSIS_RECIBIDA*2)			
+    fin_si			
+
+retorno
+PROCESAR_VACUNACION:
+
+    MAT_VACUNACION(F,C) = MAT_VACUNACION(F,C) + VAC_VACUNA_RECIBIDA
+    MAT_VACUNACION(FSTOTAL,C) = MAT_VACUNACION(FSTOTAL,C) + VAC_VACUNA_RECIBIDA 
+    MAT_VACUNACION(FSTOTALEDADES,C) = MAT_VACUNACION(FSTOTALEDADES,C) + VAC_VACUNA_RECIBIDA
+    MAT_VACUNACION(20,C) = MAT_VACUNACION(20,C) + VAC_VACUNA_RECIBIDA 
+    MAT_VACUNACION(F,19) = MAT_VACUNACION(F,6) + VAC_VACUNA_RECIBIDA 
+    MAT_VACUNACION(FSTOTAL,19) = MAT_VACUNACION(FSTOTAL,19) + VAC_VACUNA_RECIBIDA 
+    MAT_VACUNACION(20,19) = MAT_VACUNACION(20,19) + VAC_VACUNA_RECIBIDA
+
+retorno
+CALCULAR_PROMEDIO_EDAD
+    ejecutar OBTENER_EDAD
+desde C= 1 hasta 19{
+		si (MAT_VACUNACION[F,18]<>0 and MAT_VACUNACION[F,19]){
+			MAT_VACUNACION[F,19]=MAT_VACUNACION[F,19]/MAT_GEN[F, 18]
+		fin_si
+	fin_si
+fin
+
+retorno
+IMPRIMIR_CUADRO: 
+    ejecutar PREPARAR_TITULOS 
+    ejecutar IMPRIMIR_DETALLE 
+retorno 
+
+PREPARAR_TITULOS:
+imprimir "     VACUNA RECIBIDA                                                                                                                               TOTALES    "
+imprimrir "     
+            NINGUNA    ASTRAZENECA      CORONAVAX       COVAXIN          MODERNA        PFIZER       SINOPHARM       SPUTNIKV        CANTIDAD TOTAL          PROMEDIO DE
+                        UNA  DOS         UNA  DOS        UNA  DOS          UNA  DOS       UNA  DOS    UNA  DOS        UNA  DOS       TOTAL DE PERSONAS          EDADES   
+                                                                                                                                        UNA DOS                 UNA DOS                                                                         "
+imprimir "    Dosis      
+Región          "
+VEC_TITULO(1)= "I - CONCEPCIÓN "
+VEC_TITULO(2)= "II - SAN PEDRO "
+VEC_TITULO(3)= "III - CORDILLERA "
+VEC_TITULO(4)= "IV - GUAIRÁ "
+VEC_TITULO(5)= "V -  CAAGUAZÚ "
+VEC_TITULO(6)= "VI - CAAZAPÁ "
+VEC_TITULO(7)= "VII - ITAPÚA "
+VEC_TITULO(8)= "VIII -  MISIONES "
+VEC_TITULO(9)= "IX - PARAGUARÍ "
+VEC_TITULO(10)= "X -  ALTO PARANÁ "
+VEC_TITULO(11)= "XI - CENTRAL "
+VEC_TITULO(12)= "XII - ÑEEMBUCÚ "
+VEC_TITULO(13)= "XIII -  AMAMBAY "
+VEC_TITULO(14)= "XIV - CANINDEYÚ "
+VEC_TITULO(15)= "XV -  PRESIDENTE HAYES "
+VEC_TITULO(16)= "XVI -  BOQUERÓN "
+VEC_TITULO(17)= "XVII - ALTO PARAGUAY "
+VEC_TITULO(18)= "* TOTAL INTERIOR * "
+VEC_TITULO(19)= "XVIII – CAPITAL "
+VEC_TITULO(20)= "*TOTAL GENERAL* "
+
+retorno
+IMPRIMIR_DETALLE: 
+    desde F=1 hasta 20 
+        imprimir VEC_TITULO(F) 
+        desde C=1 hasta 19 
+            imprimir MAT_VACUNACION(F,C) 
+        fin_desde 
+    fin_desde 
+retorno
+ABRIR_ARCHIVO_VACUNACION: 
+    abrir VACUNACION 
+retorno 
+CERRAR_ARCHIVO_VACUNACION: 
+ cerrar VACUNACION 
+retorno 

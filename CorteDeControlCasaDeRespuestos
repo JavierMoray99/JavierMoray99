@@ -1,0 +1,102 @@
+Objetivo:
+Informe de total de ventas y total general de ventas de unac asa de respuestos.
+ENTORNO:
+archivo REPUESTO
+registro REG_REPUESTO
+   NRO_REPUESTO       es numérico
+   DESCRIPCION        es alfanumérico
+   PRECIO_UNITARIO    es numérico
+   CANT_VENDIDA       es numérico
+fin_registro
+prefijo REP
+
+W_REPUESTO_ANT        es numérico 
+ACU_VENTAS_REP        es numérico
+ACU_VENTAS_GEN        es numérico
+CON_PAGINA            es numérico
+CON_LINEA             es numérico
+
+CUERPO PRINICIPAL
+inicio
+    ejecutar PROCESO_INICIAL
+    mientras REP_NRO_REPUESTO <> 0
+        ejecutar PROCESO_PRINCIPAL
+    fin_mientras
+    ejecutar PROCESO_FINAL
+fin
+
+RUTINAS
+PROCESO_INICIAL:
+    imprimir "Informe de total y total general de ventas de repuestos"
+    ejecutar ABRIR_ARCHIVO_REPUESTO
+    ejecutar INICIALIZAR_DATOS
+    ejecutar IMPRIMIR_TITULOS
+    ejecutar LEER_SGTE_REPUESTO
+retorno
+
+PROCESO_PRINCIPAL:
+    ejecutar INICIO_REPUESTO
+    mientras REP_NRO_REPUESTO = W_REPUESTO_ANT
+        ejecutar PROCESAR_VENTA
+    fin_mientras
+    ejecutar CORTE_RESPUESTO
+retorno
+
+PROCESO_FINAL:
+    ejecutar IMPRIMIR_DATOS_GENERALES
+    ejecutar CERRAR_ARCHIVO_REPUESTO
+    imprimir "** FIN DEL PROCESO **"
+
+ABRIR_ARCHIVO_REPUESTO
+    abrir REPUESTO
+retorno
+
+INICIALIZAR_DATOS:
+    CON_PAG = 1 
+    CON_LINEA = 99
+    ACU_VENTAS_GEN = 0
+retorno
+
+IMPRIMIR_TITULOS:
+  si CON_LINEA >66
+      imprimir "        VENTAS DE REPUESTOS   PAG: ", CON_PAGINA
+      Imprimir " "
+      imprimir "N° REPUESTO     DESCRIPCION   TOTAL VENTAS"
+      CON_LINEA = 3
+      CON_PAGINA = CON_PAGINA = CON_PAGINA + 1
+   sino
+      CON_LINEA = CON_LINEA + 1 
+   fin_si
+retorno   
+LEER_SGTE_REPUESTO:
+    si eof(REPUESTO)
+        REP_NRO_REPUESTO = 0
+    sino
+        leer REG_REPUESTO
+    fin_si
+retorno    
+INICIO_REPUESTO:
+    W_REPUESTO_ANT= REP_NRO_REPUESTO
+    IMP_NRO_REPUESTO = REP_NRO_REPUESTO
+    IMP_DESCRIPCION =  REP_DESCRIPCION
+    ACU_VENTAS_REP = 0
+retorno
+
+PROCESAR_VENTA:
+    ACU_VENTAS_REP = ACU_VENTAS_REP + (REP_PRECIO_UNITARIO * CANT_VENDIDA)
+retorno
+
+CORTE_RESPUESTO:
+    ejecutar IMPRIMIR_TITULOS
+    imprimir W_REPUESTO_ANT, ACU_VENTAS_REP, ACU_VENTAS_GEN
+    ACU_VENTAS_GEN = ACU_VENTAS_GEN + ACU_VENTAS_REP
+retorno  
+
+IMPRIMIR_DATOS_GENERALES:
+    ejecutar IMPRIMIR_TITULOS
+    imprimir "TOTAL GENERAL DE VENTAS: ", ACU_VENTAS_GEN
+retorno    
+
+CERRAR_ARCHIVO_REPUESTO:
+    cerrar REPUESTO
+retorno    

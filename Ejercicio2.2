@@ -1,0 +1,31 @@
+Objtivo:
+Imprimir un informa del total de ventas de cada mes, el promedio y total general de ventas de una empresa compercial
+
+ENTORNO:
+archivo VENTA
+registtro REG_VENTA
+    NRO_MES     es numérico
+    W_IMPORTE   es numérico
+fin_registro
+prefijo VTA
+W_MES_ANT         es numérico
+W_PROMEDIO        es numérico
+ACU_VENTA_MES     es numérico
+ACU_VENTAS_TOTAL  es numérico
+
+CUPERPO PRINCIPAL:
+    ejecutar PROCESO_INICIAL
+    mientras  VTA_NRO_MES <> 0  
+        ejecutar PROCESO_PRINCIPAL
+    fin_mientras
+    ejecutar PROCESO_FINAL
+retorno
+
+RUTINAS:
+PROCESO_INICIAL:
+    imprimir "INFORME DE VENTAS TOTAL DE CADA MES Y GENERAL, PROMEDIO DE VEBTAS DE CADA MES"
+    ejecutar ABRIR_ARCHIVO_VENTA
+    ejecutar INICIALIZAR_DATOS
+    ejecutar IMPRIMIR_TITULOS
+    ejecutar LEER_SGTE_VENTA
+retorno    

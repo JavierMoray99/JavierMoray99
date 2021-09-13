@@ -3,9 +3,9 @@ Imprimir un informa del total de ventas de cada mes, el promedio y total general
 
 ENTORNO:
 archivo VENTA
-registtro REG_VENTA
+registro REG_VENTA
     NRO_MES     es numérico
-    W_IMPORTE   es numérico
+    IMPORTE   es numérico
 fin_registro
 prefijo VTA
 W_MES_ANT         es numérico
@@ -28,4 +28,67 @@ PROCESO_INICIAL:
     ejecutar INICIALIZAR_DATOS
     ejecutar IMPRIMIR_TITULOS
     ejecutar LEER_SGTE_VENTA
+retorno    
+
+PROCESO_PRINCIPAL:
+    ejecutar INICIO_VENTA
+    mientras VTA_NRO_MES =  W_MES_ANT
+           ACU_PRO = ACU_PRO + 1 
+           ejecutar PROCESAR_VENTA
+    fin_mientras
+    ejecutar CORTE_VENTA
+retorono
+
+PROCESO_FINAL:
+    ejecutar IMPRIMIR_DATOS_GRALES
+    ejecutar CERRAR_ARCHIVO_VENTA
+    imprimir "** FIN DEL PROCESO **"
+retorno
+
+ABRIR_ARCHIVO_VENTA:
+    abrir VENTA
+retorno    
+
+INICIALIZAR_DATOS:
+    ACU_VENTAS_TOTAL = 0
+    W_PROMEDIO = 0
+retorno
+
+IMPRIMIR_TITULOS:
+    imprimir "INFORMA DEL TOTAL DE VENTAS DE CADA MES"
+    imprimir "MES           VENTA MES      "
+    imprimir "--------------------------------------"
+retorno
+
+LEER_SGTE_VENTA:
+     si eof(VENTA)
+        VTA_NRO_MES = 0
+    sino
+        leer REG_VENTA
+    fin_si
+retorno
+
+INICIO_VENTA:
+    W_MES_ANT = VTA_NRO_MES
+    W_PROMEDIO = 0 
+    ACU_VENTA_MES = 0
+retorno
+
+PROCESAR_VENTA:
+    ACU_VENTA_MES = ACU_VENTA_MES + VTA_IMPORTE
+retorno
+
+CORTE_VENTA:
+    imprimir NRO_MES, ACU_VENTA_MES, ACU_VENTAS_TOTAL, W_PROMEDIO
+    ACU_VENTAS_TOTAL = ACU_VENTAS_TOTAL + ACU_VENTA_MES
+    W_PROMEDIO = ACU_VENTAS_TOTAL / ACU_PRO
+retorno
+
+IMPRIMIR_DATOS_GRALES:
+    imprimir "TOTAL VENTAS GENERAL:", ACU_VENTAS_TOTA
+    imprimir "PROMEDIO: ", W_PROMEDIO
+retorno
+
+CERRAR_ARCHIVO_VENTA:
+    cerrar VENTA
 retorno    

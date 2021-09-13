@@ -15,6 +15,8 @@ ACU_VENTAS_REP        es numérico
 ACU_VENTAS_GEN        es numérico
 CON_PAGINA            es numérico
 CON_LINEA             es numérico
+IMP_NRO_REPUESTO      es alfanumérico
+IMP_DESCRIPCION       es alfanumérico
 
 CUERPO PRINICIPAL
 inicio
@@ -52,7 +54,7 @@ ABRIR_ARCHIVO_REPUESTO
 retorno
 
 INICIALIZAR_DATOS:
-    CON_PAG = 1 
+    CON_PAGINA = 1 
     CON_LINEA = 99
     ACU_VENTAS_GEN = 0
 retorno

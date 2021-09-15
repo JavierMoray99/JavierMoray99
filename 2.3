@@ -44,7 +44,6 @@ PROCESO_PRINCIPAL:
 retorno
 
 PROCESO_FINAL:
-    ejecutar IMPRIMIR_DATOS_GRALES
     ejecutar CERRAR_ARCHIVO_OPERCLI
     imprimir "** FIN DEL PROCESO **"
 retorno
@@ -56,3 +55,57 @@ INICIALIZAR_DATOS:
     CON_PAGINA = 1 
     CON_LINEA = 99
 retorno
+IMPRIMIR_TITULOS:
+    si CON_LINEA >66
+      imprimir "        INFORME DE OPERACIONES POR CLIENTE    PAG: ", CON_PAGINA
+      Imprimir " "
+      imprimir "N° CLIENTE     NOMBRE     OPERACION   IMPORTE    SALDO"
+      CON_LINEA = 3
+      CON_PAGINA = CON_PAGINA = CON_PAGINA + 1
+   sino
+      CON_LINEA = CON_LINEA + 1 
+   fin_si
+retorno
+ejecutar LEER_SGTE_OPERCLI:
+     si eof(OPERCLI)
+        OCL_COD_CLIENTE = 0
+    sino
+        leer REG_OPERCLI
+    fin_si
+retorno
+INICIO_OPERCLI:
+    W_CLIENTE_ANT = OCL_COD_CLIENTE
+    IMP_COD_CLIENTE = OCL_COD_CLIENTE
+    IMP_NOMBRE_CLIENTE = OCL_NOMBRE
+    ACU_SALDO_CLIENTE = 0
+retorno
+PROCESAR_OPERCLI:
+    ejecutar INGRESAR_TIPO_OPERACION
+    ejecutar INGRESAR_IMPORTE_OPERACION
+    ACU_SALDO_CLIENTE = ACU_SALDO_CLIENTE + OCL_IMPORTE
+    ejecutar IMPRIMIR_TITULOS
+    imprimir IMP_COD_CLIENTE IMP_NOMBRE_CLIENTE;
+    imprimir OCL_COD_OPER, OCL_IMPORTE, OCL_SALDO
+    IMP_COD_CLIENTE = ""
+    IMP_NOMBRE_CLIENTE = ""
+    ejecutar LEER_SGTE_OPERCLI 
+retorno
+CORTE_OPERCLI:
+    ejecutar IMPRIMIR_TITULOS
+    imprimir "SALDO FINAL CLIENTE ",W_CLIENTE_ANT
+    imprimir "---------------", ACU_SALDO_CLIENTE
+retorno
+INGRESAR_TIPO_OPERACION:
+  repetir
+        ingresar "Operacion (D: deposito, E: extraccion ):",OCL_COD_OPER
+  hasta OCL_COD_OPER = "D" o OCL_COD_OPER = "E"*/
+retorno
+INGRESAR_IMPORTE_OPERACION:
+   repetir
+        ingresar "Importe: ", OCL_IMPORTE
+    hasta OCL_IMPORTE >0 
+retorno    
+
+CERRAR_ARCHIVO_OPERCLI:
+    cerrar OPERCLI
+retorno   

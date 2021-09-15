@@ -1,0 +1,58 @@
+Objetivo:
+Informe de extracto de cada cliente segun operacion
+ENTORNO:
+W_CLIENTE_ANT         es numérico
+IMP_COD_CLIENTE       es alfanumérico
+IMP_NOMBRE_CLIENTE    es alfanumérico
+W_MONTO_SALDO         es numérico
+ACU_SALDO_CLIENTE     es numérico
+CON_PAGINA            es numérico
+CON_LINEA             es numérico
+
+archivo OPERCLI
+registro REG_OPERCLI
+  COD_CLIENTE       es numérico
+  NOMBRE            es alfanumérico
+  IMPORTE           es numérico
+  COD_OPER          es alfanumérico
+fin_registro
+prefijo OCL
+
+CUERPO PRINCIPAL:
+    ejecutar PROCESO_INICIAL
+    mientras OCL_COD_CLIENTE <> 0
+        ejecutar PROCESO_PRINCIPAL
+    fin_mientras
+    ejecutar PROCESO_PRINCIPAL
+retorno
+
+RUTINAS:
+PROCESO_INICIAL
+    imprimir "EXTRACTO DE CUENTAS DE CADA CLIENTE POR OPERACION"
+    ejecutar ABRIR_ARCHICO_OPERCLI
+    ejecutar INICIALIZAR_DATOS
+    ejecutar IMPRIMIR_TITULOS
+    ejecutar LEER_SGTE_OPERCLI
+retorno
+
+PROCESO_PRINCIPAL:
+  ejecutar INICIO_OPERCLI
+  mientras OCL_COD_CLIENTE = W_CLIENTE_ANT
+      ejecutar PROCESAR_OPERCLI
+  fin_mientras
+  ejecutar CORTE_OPERCLI
+retorno
+
+PROCESO_FINAL:
+    ejecutar IMPRIMIR_DATOS_GRALES
+    ejecutar CERRAR_ARCHIVO_OPERCLI
+    imprimir "** FIN DEL PROCESO **"
+retorno
+
+ABRIR_ARCHICO_OPERCLI:
+    abrir OPERCLI
+retorno
+INICIALIZAR_DATOS:
+    CON_PAGINA = 1 
+    CON_LINEA = 99
+retorno

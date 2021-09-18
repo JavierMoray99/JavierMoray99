@@ -80,9 +80,10 @@ INICIO_OPERCLI:
     ACU_SALDO_CLIENTE = 0
 retorno
 PROCESAR_OPERCLI:
-    ejecutar INGRESAR_TIPO_OPERACION
-    ejecutar INGRESAR_IMPORTE_OPERACION
-    ACU_SALDO_CLIENTE = ACU_SALDO_CLIENTE + OCL_IMPORTE
+    Si OCL_COD_OPER = "D"
+      ACU_SALDO_CLIENTE = ACU_SALDO_CLIENTE + OCL_IMPORTE
+    sino
+      ACU_SALDO_CLIENTE = ACU_SALDO_CLIENTE - OCL_IMPORTE
     ejecutar IMPRIMIR_TITULOS
     imprimir IMP_COD_CLIENTE IMP_NOMBRE_CLIENTE;
     imprimir OCL_COD_OPER, OCL_IMPORTE, OCL_SALDO
@@ -95,17 +96,6 @@ CORTE_OPERCLI:
     imprimir "SALDO FINAL CLIENTE ",W_CLIENTE_ANT
     imprimir "---------------", ACU_SALDO_CLIENTE
 retorno
-INGRESAR_TIPO_OPERACION:
-  repetir
-        ingresar "Operacion (D: deposito, E: extraccion ):",OCL_COD_OPER
-  hasta OCL_COD_OPER = "D" o OCL_COD_OPER = "E"*/
-retorno
-INGRESAR_IMPORTE_OPERACION:
-   repetir
-        ingresar "Importe: ", OCL_IMPORTE
-    hasta OCL_IMPORTE >0 
-retorno    
-
 CERRAR_ARCHIVO_OPERCLI:
     cerrar OPERCLI
 retorno   

@@ -1,0 +1,92 @@
+OBJETIVO:
+imprimir un informe detallado de las horas extras y sueldo a cobrar de cada empleado.
+ENTORNO:
+W_EMPLEADO_ANT          es numérico 
+CON_PAGINA              es numérico
+CON_LINEA               es numérico
+ACU_HORA_EXTRAS         es numérico
+ACU_SUELDO_EMP          es numérico
+ACU_SUELDO_GRAL         es numérico
+
+archivo EMPLEADO
+registro REG_EMPLEADO
+    NRO_EMPLEADO      es numérico
+    NOMBRE            es alfanumérico
+    MES               es numérico
+    DIA               es numérico
+    HORA_ENTRADA      es alfanumérico
+    HORA_SALIDA       es alfanumérico
+    SUELDO_HORA       es numérico
+    ACU_HORA
+    CON_HORA_EXTRA
+    
+fin_registro
+prefijo EMP
+
+CUERPO PRINCIPAL
+    ejecutar PROCESO_INICIAL
+    mientras W_EMPLEADO_ANT <>0
+        ejecutar PROCESO_PRINCIPAL
+    fin_mientras
+    ejecutar PROCESO_FINAL
+retorno
+RUTINAS:
+PROCESO_INICIAL
+    imprimir "RESUMEN DE HORAS EXTRAS TRABAJADAS"
+    ejecutar ABRIR_ARCHICO_EMPLEADO
+    ejecutar INICIALIZAR_DATOS
+    ejecutar IMPRIMIR_TITULOS
+    ejecutar LEER_SGTE_EMPLEADO
+retorno
+
+PROCESO_PRINCIPAL:
+  ejecutar INICIO_EMPLEADO
+  mientras EMP_NRO_EMPLEADO = W_EMPLEADO_ANT
+      ejecutar PROCESAR_EMPLEADO
+  fin_mientras
+  ejecutar CORTE_EMPLEADO
+retorno
+
+PROCESO_FINAL:
+    ejecutar IMPRIMIR_DATOS_GENERALES
+    ejecutar CERRAR_ARCHIVO_OPERCLI
+    imprimir "** FIN DEL PROCESO **"
+retorno
+ABRIR_ARCHICO_EMPLEADO:
+    abrir EMPLEADO
+retorno
+INICIALIZAR_DATOS:
+    CON_PAGINA = 1 
+    CON_LINEA = 99
+    ACU_SUELDO_GRAL = 0
+retorno
+IMPRIMIR_TITULOS:
+    si CON_LINEA >66
+      imprimir "                                   INFORME DE HORAS TRABAJADAS    PAG: ", CON_PAGINA
+      Imprimir "                                                                                        "
+      imprimir "N° DE EMPLEADO     TOTAL DE HORAS TRABAJADAS     SUELDO POR HORA   HORAS NORMALES    SUELDO A COBRAR"
+      CON_LINEA = 3
+      CON_PAGINA = CON_PAGINA = CON_PAGINA + 1
+   sino
+      CON_LINEA = CON_LINEA + 1 
+   fin_si
+retorno
+ejecutar LEER_SGTE_EMPLEADO:
+     si eof(EMPLEADO)
+        EMP_NRO_EMPLEADO = 0
+    sino
+        leer REG_EMPLEADO
+    fin_si
+retorno
+INICIO_EMPLEADO:
+  W_EMPLEADO_ANT = EMP_NRO_EMPLEADO
+  ACU_SUELDO_EMP = 0 
+retorno  
+PROCESAR_EMPLEADO:
+    ACU_HORA = ACU_HORA + (EMP_HORA_SALIDA - EMP_HORA_ENTRADA)
+    si ACU_HORA >60
+       CON_HORA_EXTRA = CON_HORA_EXTRA + 1
+       W_SUELDO = ACU_HORA * EMP_SUELDO_HORA + CON_HORA_EXTRA * EMP_SUELDO_HORA * 1,5
+    sino
+    W_SUELDO = ACU_HORA * EMP_SUELDO_HORA + CON_HORA_EXTRA * EMP_SUELDO_HORA * 1,5
+        

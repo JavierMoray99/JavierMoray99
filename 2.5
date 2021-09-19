@@ -1,0 +1,95 @@
+OBJETIVO:
+imprimir un Informe de control del total de compras de libros efectuadas por cada cliente.
+ENTORNO:
+W_CLIENTE_ANT         es numérico
+CON_PAGINA            es numérico
+CON_LINEA             es numérico
+ACU_LIBROS_COMP       es numérico
+
+archivo CLIENTE
+registro REG_CLIENTE
+  NRO_CLIENTE     es numérico
+  NOMBRE          es alfanumérico
+  DIRECCION       es alfanumérico
+  FECHA_COMPRA    es alfanumérico
+  CANT_EJEMPLARES es alfanumérico
+fin_registro
+prefijo CLI
+
+CUERPO PRINCIPAL:
+    ejecutar PROCESO_INICIAL
+    mientras CLI_NRO_CLIENTE <> 0
+        ejecutar PROCESO_PRINCIPAL
+    fin_mientras
+    ejecutar PROCESO_FINAL
+retorno
+RUTINAS:
+PROCESO_INICIAL
+    imprimir "INFORME DE LIBROS COMPRADOS POR CADA CLIENTE"
+    ejecutar ABRIR_ARCHICO_CLIENTE
+    ejecutar INICIALIZAR_DATOS
+    ejecutar IMPRIMIR_TITULOS
+    ejecutar LEER_SGTE_CLIENTE
+retorno
+PROCESO_PRINCIPAL:
+    ejecutar INICIO_CLIENTE
+    mientas CLI_NRO_CLIENTE = W_CLIENTE_ANT
+        ejecutar PROCESAR_CLIENTE
+    fin_mientras
+    ejecutar CORTE_CLIENTE
+retorno
+PROCESO_FINAL:
+  ejecutar CERRAR_ARCHIVO_CLIENTE
+  imprimir "** FIN DEL PROCESO **"
+retorno
+
+ABRIR_ARCHICO_CLIENTE
+  abrir CLIENTE
+retorno
+
+INICIALIZAR_DATOS:
+  CON_PAGINA = 1 
+  CON_LINEA = 99
+retorno
+
+IMPRIMIR_TITULOS:
+   si CON_LINEA >66
+      imprimir "        COMPRAS POR CLIENTE   PAG: ", CON_PAGINA
+      Imprimir " "
+      imprimir "N° DE CLIENTE     NOMBRE    DIRECION    MONTO COMPRADO   "
+      CON_LINEA = 3
+      CON_PAGINA = CON_PAGINA = CON_PAGINA + 1
+   sino
+      CON_LINEA = CON_LINEA + 1 
+   fin_si   
+retorno
+LEER_SGTE_CLIENTE:
+  si eof(CLIENTE)
+        CLI_NRO_CLIENTE = 0
+    sino
+        leer REG_CLIENTE
+    fin_si
+retorno
+INICIO_CLIENTE:
+    W_CLIENTE_ANT = CLI_NRO_CLIENTE
+    ACU_LIBROS_COMP = 0
+retorno
+PROCESAR_CLIENTE:
+    si CLI_CANT_EMJEMPLARES < 10
+        ACU_LIBROS_COMP = ACU_LIBROS_COMP + 60000
+    sino
+      si CLI_CANT_EMJEMPLARES >=10 and CLI_CANT_EMJEMPLARES <= 49
+          ACU_LIBROS_COMP = ACU_LIBROS_COMP + 55000
+      sino
+          ACU_LIBROS_COMP = ACU_LIBROS_COMP + 50000
+      fin_si
+     fin_si
+   fin_si
+retorno
+CORTE_CLIENTE:
+  ejecutar IMPRIMIR_TITULOS
+  imprimir W_CLIENTE_ANT, ACU_LIBROS_COMP
+retorno
+CERRAR_ARCHIVO:
+  cerrar CLIENTE
+retorno  

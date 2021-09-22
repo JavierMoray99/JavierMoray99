@@ -7,6 +7,11 @@ CON_LINEA               es numérico
 ACU_HORA_EXTRAS         es numérico
 ACU_SUELDO_EMP          es numérico
 ACU_SUELDO_GRAL         es numérico
+IMP_NOMBRE_EMPLEADO     es alfanumérico
+IMP_SUELDO              es numérico
+IMP_HORA_EX             es numérico
+ACU_HORA                es numérico            
+CON_HORA_EXTRA          es numérico
 
 archivo EMPLEADO
 registro REG_EMPLEADO
@@ -17,8 +22,7 @@ registro REG_EMPLEADO
     HORA_ENTRADA      es alfanumérico
     HORA_SALIDA       es alfanumérico
     SUELDO_HORA       es numérico
-    ACU_HORA
-    CON_HORA_EXTRA
+
     
 fin_registro
 prefijo EMP
@@ -59,6 +63,9 @@ INICIALIZAR_DATOS:
     CON_PAGINA = 1 
     CON_LINEA = 99
     ACU_SUELDO_GRAL = 0
+    IMP_NOMBRE_EMPLEADO = EMP_NOMBRE 
+    IMP_SUELDO = EMP_SUELDO_HORA
+    IMP_HORA_EX = ACU_HORA
 retorno
 IMPRIMIR_TITULOS:
     si CON_LINEA >66
@@ -71,7 +78,7 @@ IMPRIMIR_TITULOS:
       CON_LINEA = CON_LINEA + 1 
    fin_si
 retorno
-ejecutar LEER_SGTE_EMPLEADO:
+LEER_SGTE_EMPLEADO:
      si eof(EMPLEADO)
         EMP_NRO_EMPLEADO = 0
     sino
@@ -83,16 +90,17 @@ INICIO_EMPLEADO:
   ACU_SUELDO_EMP = 0 
 retorno  
 PROCESAR_EMPLEADO:
-    ACU_HORA = ACU_HORA + (EMP_HORA_SALIDA - EMP_HORA_ENTRADA)
+    ACU_HORA = ACU_HORA + (EMP_HORA_SALIDA - EMP_HORA_ENTRADA)  
+retorno
+CORTE_EMPLEADO:
+    ejecutar IMPRIMIR_TITULOS
     si ACU_HORA >60
        CON_HORA_EXTRA = CON_HORA_EXTRA + 1
        ACU_SUELDO_EMP = ACU_SUELDO_EMP + (ACU_HORA * EMP_SUELDO_HORA + CON_HORA_EXTRA * EMP_SUELDO_HORA * 1,5)
     sino
        ACU_SUELDO_EMP = ACU_SUELDO_EMP + (ACU_HORA * EMP_SUELDO_HORA) 
-    fin_si    
-retorno
-CORTE_EMPLEADO:
-    ejecutar IMPRIMIR_TITULOS
+    fin_si  
+    imprimir IMP_NOMBRE, IMP_SUELDO_HORA, IMP_HORA_EX
     imprimir W_EMPLEADO_ANT, ACU_SUELDO_EMP, ACU_HORA,  ACU_SUELDO_GRAL
     ACU_SUELDO_GRAL = ACU_SUELDO_GRAL + ACU_SUELDO_EMP
 retorno
@@ -103,3 +111,4 @@ IMPRIMIR_DATOS_GENERALES:
 retorno 
 CERRAR_ARCHIVO_EMPLEADO:
     cerrar EMPLEADO
+retorno    

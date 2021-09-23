@@ -1,0 +1,108 @@
+OBJETIVO:
+INFORME DE COMISIONES DE CADA EMPLEADO DE UNA EMPRESA
+ENTORNO:
+W_VENDEDOR_ANT      es alfanumérico
+IMP_COD_VEN         es numérico
+IMP_NOMBRE          es alfanumérico 
+ACU_COMISION_VEN    es numérico
+ACU_COMISION_GRAL   es numérico
+W_MONTO_COMISION    es numérico
+
+archivo VENTA
+registro REG_VENTA
+   COD_VENDEDOR     es numérico
+   NOMBRE           es alfanumérico
+   NRO_FACTURA      es numérico
+   IMPORTE          es numérico
+fin_registro
+prefijo  VEN
+CUERPO PRINCIPAL:
+    ejecutar PROCESO_INICIAL
+    mientras VEN_COD_VENDEDOR <> 0
+        ejecutar PROCESO_PRINCIPAL
+    fin_mientras
+    ejecutar PROCESO_FINAL
+retorno
+RUTINAS:
+PROCESO_INICIAL
+    imprimir "INFORME DE COMISIONES DE LOS VENDEDORES "
+    ejecutar ABRIR_ARCHIVO_VENTA
+    ejecutar INICIALIZAR_DATOS
+    ejecutar IMPRIMIR_TITULOS
+    ejecutar LEER_SGTE_VENTA
+retorno
+PROCESO_PRINCIPAL:
+    ejecutar INICIO_VENTA
+    mientas VEN_COD_VENDEDOR = W_VENDEDOR_ANT
+        ejecutar PROCESAR_VENTA
+    fin_mientras
+    ejecutar CORTE_VENTA
+retorno
+PROCESO_FINAL:
+  ejecutar IMPRIMIR_DATOS_GENERALES
+  ejecutar CERRAR_ARCHIVO_VENTA
+  imprimir "** FIN DEL PROCESO **"
+retorno
+ABRIR_ARCHICO_CLIENTE
+  abrir CLIENTE
+retorno
+
+INICIALIZAR_DATOS:
+  CON_PAGINA = 1 
+  CON_LINEA = 99
+  ACU_COMISION_GRAL = 0
+retorno
+
+IMPRIMIR_TITULOS:
+   si CON_LINEA >66
+      imprimir "                           INFORME DE COMISIONES    PAG: ",                CON_PAGINA
+      Imprimir " "
+      imprimir "N° DE VENDEDOR      NOMBRE     NRO DE FACTURA    IMPORTE FACTURADO  MONTO COMISION   "
+      CON_LINEA = 3
+      CON_PAGINA = CON_PAGINA = CON_PAGINA + 1
+   sino
+      CON_LINEA = CON_LINEA + 1 
+   fin_si   
+LEER_SGTE_VENTA:
+  si eof(VENTA)
+        VEN_COD_VENDEDOR = 0
+    sino
+        leer REG_VENTA
+    fin_si
+retorno
+INICIO_VENTA:
+    W_VENDEDOR_ANT = VEN_COD_VENDEDOR
+    IMP_COD_VEN = VEN_COD_VENDEDOR
+    IMP_NOMBRE = VEN_NOMBRE
+    ACU_COMISION_VEN = 0
+retorno
+PROCESAR_VENTA:
+  si VEN_IMPORTE <= 100000
+     W_MONTO_COMISION = 0.1
+     ACU_COMISION_VEN = ACU_COMISION_VEN + W_MONTO_COMISION  
+     ejecutar IMPRIMIR_TITULOS
+     imprimir IMP_COD_VEN, IMP_NOMBRE;
+     imprimir VEN_NRO_FACTURA, VEN_IMPORTE, W_MONTO_COMISION
+     imprimir  IMP_COD_VEN = ""
+     imprimir IMP_NOMBRE = ""
+     ejecutar LEER_SGTE_VENTA
+   sino
+     W_MONTO_COMISION = 0.12  
+     ACU_COMISION_VEN = ACU_COMISION_VEN + W_MONTO_COMISION  
+     ejecutar IMPRIMIR_TITULOS
+     imprimir IMP_COD_VEN, IMP_NOMBRE;
+     imprimir VEN_NRO_FACTURA, VEN_IMPORTE, W_MONTO_COMISION
+     imprimir  IMP_COD_VEN = ""
+     imprimir IMP_NOMBRE = ""
+     ejecutar LEER_SGTE_VENTA
+   fin_si
+retorno
+CORTE_VENTA:
+  ejecutar IMPRIMIR_TITULOS
+  imprimir "TOTAL COMISIONES NRO ", W_VENDEDOR_ANT;
+  imprimir "--", W_MONTO_COMISION 
+  ACU_COMISION_GRAL = ACU_COMISION_GRA + ACU_COMISION_VEN
+retorno
+IMPRIMIR_DATOS_GENERALES:
+  ejecutar IMPRIMIR_TITULOS
+  imprimir "TOTAL GRAL DE COMISIONES A PAGAR: ", ACU_COMISION_GRAL

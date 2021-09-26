@@ -6,4 +6,44 @@ CON_FECHA          es numérico
 ACU_LIBRO          es numérico
 CON_LIBROS         es numérico
 
+archivo LIBRO
+registro REG_LIBRO
+  NRO_LIBRO       es numérico
+  FECHA_OPER      es numérico
+  COD_ALUMNO      es numérico
+  NOMBRE          es alfanumérico
+  COD_OPER        es alfanumérico
+fin_registro
+prefijo LIB
+
+CUPERPO PRINCIPAL:
+    ejecutar PROCESO_INICIAL
+    mientras  LIB_NRO_LIB <> 0  
+        ejecutar PROCESO_PRINCIPAL
+    fin_mientras
+    ejecutar PROCESO_FINAL
+retorno
+RUTINAS:
+PROCESO_INICIAL:
+    imprimir "INFORME DE PRSESTAMOS DE LIBROS"
+    ejecutar ABRIR_ARCHIVO_LIBRO
+    ejecutar INICIALIZAR_DATOS
+    ejecutar IMPRIMIR_TITULOS
+    ejecutar LEER_SGTE_LIBRO
+retorno    
+
+PROCESO_PRINCIPAL:
+    ejecutar INICIO_LIBRO
+    mientras LIB_NRO_LIBRO =  W_LIBRO_ANT
+           ejecutar PROCESAR_LIBRO
+    fin_mientras
+    ejecutar CORTE_LIBRO
+retorono
+
+PROCESO_FINAL:
+    ejecutar IMPRIMIR_DATOS_GRALES
+    ejecutar CERRAR_ARCHIVO_LIBRO
+    imprimir "** FIN DEL PROCESO **"
+retorno
+
 W_FECHA = LIB_FECHA_OPER

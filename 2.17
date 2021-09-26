@@ -1,4 +1,9 @@
 OBJETIVO:
 INFORME DE LIBROS PRESTADOS AL FINAL DEL AÑO 
 ENTORNO:
-W_LIBRO_ANT
+W_LIBRO_ANT        es numérico
+CON_FECHA          es numérico
+ACU_LIBRO          es numérico
+CON_LIBROS         es numérico
+
+W_FECHA = LIB_FECHA_OPER

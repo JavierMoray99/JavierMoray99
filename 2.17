@@ -45,5 +45,47 @@ PROCESO_FINAL:
     ejecutar CERRAR_ARCHIVO_LIBRO
     imprimir "** FIN DEL PROCESO **"
 retorno
+ABRIR_ARCHIVO_LIBRO:
+    abrir LIBRO
+retorno    
 
+INICIALIZAR_DATOS:
+    ACU_VENTAS_TOTAL = 0
+    W_PROMEDIO = 0
+retorno
+
+IMPRIMIR_TITULOS:
+    imprimir "            INFORME DE LIBROS PRESTADOS DURANTE UN AÑO  "
+    imprimir "NRO DE LIBRO     FECHA_OPER      COD_ALUMNO       NOMBRE      COD_OP   "
+    imprimir "--------------------------------------"
+retorno
+LEER_SGTE_LIBRO:
+     si eof(LIBRO)
+        VTA_NRO_LIBRO = 0
+    sino
+        leer REG_LIBRO
+    fin_si
+retorno
+
+INICIO_VENTA:
+    W_LIBRO_ANT = LIB_NRO_LIBRO
+
+retorno
+
+PROCESAR_VENTA:
+    ACU_VENTA_MES = ACU_VENTA_MES + VTA_IMPORTE
+retorno
+
+CORTE_VENTA:
+
+retorno
+
+IMPRIMIR_DATOS_GRALES:
+    imprimir "TOTAL VENTAS GENERAL:", ACU_VENTAS_TOTA
+    imprimir "PROMEDIO: ", W_PROMEDIO
+retorno
+
+CERRAR_ARCHIVO_LIBRO:
+    cerrar LIBRO
+retorno    
 W_FECHA = LIB_FECHA_OPER

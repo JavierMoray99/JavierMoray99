@@ -1,0 +1,50 @@
+Objetivo:
+Mantenimiento de asientos contables.
+ENTORNO:
+W_NRO_CUENTA        es numérico
+W_OPCION            es alfanumérico
+W_RESPUESTA         es alfanumérico
+
+archivo CUENTA
+registro REG_CUENTA
+  NRO_CUENTA        es numérico
+  DESCRIPCION       es alfanumérico
+  TIPO_CUENTA       es alfanumérico
+  ASENTABLE         es alfanumérico
+  TOTAL_DEBITOS     es numérico
+  TOTAL_CREDITOS    es numérico
+fin_registro
+prefijo CUE
+
+archivo ASIENTO
+registro REG_ASIENTO
+  NRO_ASIENTO       es numérico
+  NRO_MOVIMIM       es numérico
+  NRO_CUENTA        es numérico
+  PERIODO           es alfanumérico
+  IMPORTE_DEBITO    es numérico
+  IMPORTE_CREDITO   es numérico
+fin_registro
+prefijo ASI
+
+CUERPO PRINCIPAL:
+inicio
+  ejecutar PROCESO_INICIAL
+  mientras W_NRO_CUENTA <> 0
+      ejecutar PROCESO_PRINCIPAL
+  fin_mientras
+  ejecutar PROCESO_FINAL
+ fin
+RUTINAS:
+PROCESO_INICIAL:
+  imprimir " MANTENIMIENTOS DE ASIENTOS CONTABLES"
+  ejecutar ABRIR_ARCHIVOS
+  ejecutar INGRESAR_NRO_CUENTA
+retorno
+
+PROCESO_PRINCIPAL:
+  ejecutar LEER_CUENTA
+  si existe (CUENTA)
+     ejecutar IMPRIMIR_DATOS_CUENTA
+     ejecutar INGRESAR_OPCION_MANTENIMIENTO
+     si W_OPCION = "B"

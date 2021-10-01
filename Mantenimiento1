@@ -1,7 +1,7 @@
 Objetivo:
 Mantenimiento de asientos contables.
 ENTORNO:
-W_NRO_CUENTA        es numérico
+W_NRO_ASIENTO       es numérico
 W_OPCION            es alfanumérico
 W_RESPUESTA         es alfanumérico
 
@@ -30,7 +30,7 @@ prefijo ASI
 CUERPO PRINCIPAL:
 inicio
   ejecutar PROCESO_INICIAL
-  mientras W_NRO_CUENTA <> 0
+  mientras W_NRO_ASIENTO <> 0
       ejecutar PROCESO_PRINCIPAL
   fin_mientras
   ejecutar PROCESO_FINAL
@@ -43,8 +43,10 @@ PROCESO_INICIAL:
 retorno
 
 PROCESO_PRINCIPAL:
-  ejecutar LEER_CUENTA
-  si existe (CUENTA)
+  ejecutar LEER_ASIENTO
+  si existe (ASIENTO)
+    ejecutar INGRESAR_MOVIMIENTO
+    si existe (ASI_NRO_MOV)
      ejecutar IMPRIMIR_DATOS_CUENTA
      ejecutar INGRESAR_OPCION_MANTENIMIENTO
      si W_OPCION = "B"

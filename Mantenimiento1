@@ -45,7 +45,13 @@ retorno
 PROCESO_PRINCIPAL:
   ejecutar LEER_ASIENTO
   si existe (ASIENTO)
-    ejecutar INGRESAR_MOVIMIENTO
+     ejecutar LEER_CUENTA
+     si existe (ASI_NRO_MOVIM)
+        si existe (ASI_NRO_CUENTA) 
+          ejecutar IMPRIMIR_DATOS_ASIENTO
+        sino
+          ejecutar  ALTA_NRO_CUENTA
+        
     si existe (ASI_NRO_MOV)
      ejecutar IMPRIMIR_DATOS_CUENTA
      ejecutar INGRESAR_OPCION_MANTENIMIENTO

@@ -51,7 +51,7 @@ PROCESO_PRINCIPAL:
         ejecutar INGRESAR_NRO_CUENTA
         ejecutar LEER_CUENTA
         si existe (CUENTA) and CUE_ASENTABLE = "S"
-          ejecutar IMPRIMIR_DESCIPCION
+          ejecutar IMPRIMIR_DESCRIPCION
         sino
            ejecutar INGRESAR_NRO_CUENTA
         fin_si
@@ -100,3 +100,54 @@ ALTA_ASIENTO:
   fin_si
 retorno
 
+BAJA_ASIENTO:
+  ejecutar LEER_ASIENTO
+  ejecutar INGRESAR_CONFIRMACION
+  si W_RESPUESTA = "S"
+    borrar REG_ASIENTO
+    ASI_IMPORTE_CREDITO = ASI_IMPORTE_CREDITO - CUE_TOTAL_DEBITOS
+  fin_si
+retorno
+
+MODIFICACION_ASIENTO:
+  ejecutar INGRESAR_DATOS_ASIENTO
+  ejecutar INGRESAR_CONFIRMACION
+  si W_RESPUESTA = "S"
+      regrabar REG_ASIENTO
+  fin_si    
+LEER_ASIENTO:
+  W_NRO_ASIENTO = ASI_NRO_ASIENTO
+  clave ASI_NRO_ASIENTO + ASI_NRO_MOVIM
+  leer REG_ASIENTO
+retorno
+IMPRIMIR_DESCRIPCION:
+  imprimir "NRO_ASIENTO ", ASI_NRO_ASIENTO
+  imprimir "NRO MOVIMIENTO ", ASI_NRO_MOVIM
+  imprimir "NRO CUENTA ", ASI_NRO_CUENTA
+  imprimir "PERIODO ", ASI_PERIODO
+  imprimir "IMPORTE DEBITO ", ASI_IMPORTE_DEBITO
+  imprimir "IMPORTE CREDITO ", ASI_IMPORTE_CREDITO
+retorno
+INGRESAR_DATOS_ASIENTO:
+  ingresar "Perido", ASI_PERIODO
+retorno
+INGRESAR_OPCION_MANTENIMIENTO:
+  repetir
+      ingresar "DESEA (B= BAJA, M= MDOFICIACION, C= CONSULTA: ", W_OPCION
+  hasta W_OPCION = "B" or "M" or "C"   
+retorno
+INGRESAR_CONFIRMACION:
+  repetir
+    ingresar "CONFIRMA ESTA OPERACION ? (S/N): ", W_RESPUESTA
+  hasta W_OPCION = "S" or "N"
+retorno
+CERRAR_ARCHIVOS
+  ejecutar CERRAR_ARCHIVO_ASIENTO
+  ejecutar CERRAR_ARCHIVO_CUENTA
+retorno  
+CERRAR_ARCHIVO_ASIENTO
+    cerrar ASIENTO
+retorno
+CERRAR_ARCHIVO_CUENTA
+    cerrar CUENTA
+retorno    

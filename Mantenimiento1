@@ -43,6 +43,7 @@ PROCESO_INICIAL:
 retorno
 
 PROCESO_PRINCIPAL:
+  ejecutar INGRESAR_NRO_ASIENTO
   ejecutar INGRESAR_NRO_MOVIM
   ejecutar LEER_ASIENTO
      si existe (ASIENTO)
@@ -70,3 +71,32 @@ PROCESO_FINAL:
   ejecutar CERRAR_ARCHIVOS
   imprimir "** FIN DEL ARCHIVO**"
 retorno
+ABRIR_ARCHIVOS:
+   ejecutar ABRIR_ARCHIVO_ASIENTO
+   ejecutar ABRIR_ARCHIVO_CUENTA
+retorno
+
+ABRIR_ARCHIVO_ASIENTO
+  abrir ASIENTO
+retorno
+ABRIR_ARCHIVO_CUENTA
+  abrir CUETNA
+retorno
+INGRESAR_NRO_ASIENTO:
+  ingresar "Numero de asinto (ENTER p/ fin):", ASI_NRO_ASIENTO
+retorno  
+INGRESAR_NRO_MOVIM:
+  ingresar "NRO DE MOVIMIENTO: ", ASI_NRO_MOVIM
+retorno  
+INGRESAR_NRO_CUENTA:
+  ingresar "Numero de cuenta:", CUE_NRO_CUENTA
+ALTA_ASIENTO:
+  INGRESAR "Asiento inexistene, desea agregar? (S/N):", W_RESPUESTA
+  si W_RESPUESTA = "S"
+  ejecutar INGRESAR_DATOS_ASIENTO
+  ejecutar INGRESAR_CONFIRMACION
+  si W_W_RESPUESTA = "S"
+    grabar REG_ASIENTO
+  fin_si
+retorno
+

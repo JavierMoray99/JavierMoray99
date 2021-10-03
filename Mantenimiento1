@@ -43,17 +43,30 @@ PROCESO_INICIAL:
 retorno
 
 PROCESO_PRINCIPAL:
+  ejecutar INGRESAR_NRO_MOVIM
   ejecutar LEER_ASIENTO
-  si existe (ASIENTO)
-     ejecutar LEER_CUENTA
-     si existe (ASI_NRO_MOVIM)
-        si existe (ASI_NRO_CUENTA) 
-          ejecutar IMPRIMIR_DATOS_ASIENTO
+     si existe (ASIENTO)
+        ejecutar ALTA_ASIENTO
+        ejecutar INGRESAR_NRO_CUENTA
+        ejecutar LEER_CUENTA
+        si existe (CUENTA) and CUE_ASENTABLE = "S"
+          ejecutar IMPRIMIR_DESCIPCION
         sino
-          ejecutar  ALTA_NRO_CUENTA
-        
-    si existe (ASI_NRO_MOV)
-     ejecutar IMPRIMIR_DATOS_CUENTA
-     ejecutar INGRESAR_OPCION_MANTENIMIENTO
-     si W_OPCION = "B"
-     
+           ejecutar INGRESAR_NRO_CUENTA
+        fin_si
+     sino
+        ejecutar INGRESAR_OPCION_MANTENIMIENTO
+        si W_OPCION = "B"
+           ejecutar BAJA_ASIENTO
+        sino
+          si W_OPCION = "M"
+            ejecutar MODIFICACION_ASIENTO
+          fin_si
+        fin_si
+      fin_si
+      ejecutar LEER_NRO_ASIENTO
+retorno
+PROCESO_FINAL:
+  ejecutar CERRAR_ARCHIVOS
+  imprimir "** FIN DEL ARCHIVO**"
+retorno

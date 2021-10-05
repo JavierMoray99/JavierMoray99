@@ -2,6 +2,7 @@ Objetivo:
 Mantenimiento de asientos contables.
 ENTORNO:
 W_NRO_ASIENTO       es numérico
+W_NRO_CUENTA        es numérico
 W_OPCION            es alfanumérico
 W_RESPUESTA         es alfanumérico
 
@@ -40,14 +41,13 @@ PROCESO_INICIAL:
   imprimir " MANTENIMIENTOS DE ASIENTOS CONTABLES"
   ejecutar ABRIR_ARCHIVOS
   ejecutar INGRESAR_NRO_CUENTA
+  ejecutar INGRESAR_NRO_ASIENTO
 retorno
 
 PROCESO_PRINCIPAL:
-  ejecutar INGRESAR_NRO_ASIENTO
   ejecutar INGRESAR_NRO_MOVIM
   ejecutar LEER_ASIENTO
      si existe (ASIENTO)
-        ejecutar ALTA_ASIENTO
         ejecutar INGRESAR_NRO_CUENTA
         ejecutar LEER_CUENTA
         si existe (CUENTA) and CUE_ASENTABLE = "S"
@@ -56,6 +56,7 @@ PROCESO_PRINCIPAL:
            ejecutar INGRESAR_NRO_CUENTA
         fin_si
      sino
+        ejecutar ALTA_ASIENTO
         ejecutar INGRESAR_OPCION_MANTENIMIENTO
         si W_OPCION = "B"
            ejecutar BAJA_ASIENTO
@@ -116,10 +117,15 @@ MODIFICACION_ASIENTO:
       regrabar REG_ASIENTO
   fin_si    
 LEER_ASIENTO:
-  W_NRO_ASIENTO = ASI_NRO_ASIENTO
+  ASI_NRO_ASIENTO = W_NRO_ASIENTO 
   clave ASI_NRO_ASIENTO + ASI_NRO_MOVIM
   leer REG_ASIENTO
 retorno
+LEER_CUENTA:
+  CUE_NRO_CUENTA = W_NRO_CUENTA
+  clave CUE_NRO_CUENTA
+  leer REG_CUENTA
+retorno  
 IMPRIMIR_DESCRIPCION:
   imprimir "NRO_ASIENTO ", ASI_NRO_ASIENTO
   imprimir "NRO MOVIMIENTO ", ASI_NRO_MOVIM

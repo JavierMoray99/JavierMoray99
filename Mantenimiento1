@@ -50,11 +50,7 @@ PROCESO_PRINCIPAL:
      si existe (ASIENTO)
         ejecutar INGRESAR_NRO_CUENTA
         ejecutar LEER_CUENTA
-        si existe (CUENTA) and CUE_ASENTABLE = "S"
-          ejecutar IMPRIMIR_DESCRIPCION
-        sino
-           ejecutar INGRESAR_NRO_CUENTA
-        fin_si
+        ejecutar VALIDAR_CUENTA
      sino
         ejecutar ALTA_ASIENTO
         ejecutar INGRESAR_OPCION_MANTENIMIENTO
@@ -126,6 +122,16 @@ LEER_CUENTA:
   clave CUE_NRO_CUENTA
   leer REG_CUENTA
 retorno  
+VALIDAR_CUENTA
+  ejecutar LEER_CUENTA
+  si existe(CUENTA)
+      repetir
+          ingresar "INGRESE SI EL TIPO DE CUENTA ES ASENTABLE", CUE_ASENTABLE
+      hasta CUE_ASENTABLE = "S"
+      ejecutar IMPRIMIR_DESCRIPCION
+   sino
+      INGRESAR_NRO_CUENTA
+   fin_si   
 IMPRIMIR_DESCRIPCION:
   imprimir "NRO_ASIENTO ", ASI_NRO_ASIENTO
   imprimir "NRO MOVIMIENTO ", ASI_NRO_MOVIM

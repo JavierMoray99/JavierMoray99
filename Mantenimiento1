@@ -136,8 +136,6 @@ IMPRIMIR_DESCRIPCION:
 retorno
 INGRESAR_DATOS_ASIENTO:
   ingresar "Perido", ASI_PERIODO
-  repetir
-    ingresar "Tipo de movimiento: "
 retorno
 INGRESAR_OPCION_MANTENIMIENTO:
   repetir

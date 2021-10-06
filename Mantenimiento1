@@ -5,6 +5,7 @@ W_NRO_ASIENTO       es numérico
 W_NRO_CUENTA        es numérico
 W_OPCION            es alfanumérico
 W_RESPUESTA         es alfanumérico
+W_TIPO_MOVIM        es alfanumérico
 
 archivo CUENTA
 registro REG_CUENTA
@@ -57,9 +58,11 @@ PROCESO_PRINCIPAL:
         si W_OPCION = "B"
            ejecutar BAJA_ASIENTO
         sino
-          si W_OPCION = "M"
-            ejecutar MODIFICACION_ASIENTO
-          fin_si
+          si W_OPCION = "BM"
+            ejecutar BAJA_MOVIMIENTO
+          sino
+            W_OPCION = "A"
+            ejecutar ACTUALIZAR_CUENTA
         fin_si
       fin_si
       ejecutar LEER_NRO_ASIENTO
@@ -106,11 +109,11 @@ BAJA_ASIENTO:
   fin_si
 retorno
 
-MODIFICACION_ASIENTO:
-  ejecutar INGRESAR_DATOS_ASIENTO
+ACTUALIZAR_CUENTA:
+  ejecutar INGRESAR_DATOS_CUENTA
   ejecutar INGRESAR_CONFIRMACION
   si W_RESPUESTA = "S"
-      regrabar REG_ASIENTO
+      regrabar REG_CUENTA
   fin_si    
 LEER_ASIENTO:
   ASI_NRO_ASIENTO = W_NRO_ASIENTO 
@@ -132,6 +135,14 @@ VALIDAR_CUENTA
    sino
       INGRESAR_NRO_CUENTA
    fin_si   
+ejecutar INGRESAR_DATOS_CUENTA
+  ingresar "DESCRIPCION", CUE_DESCRIPCION
+  repetir
+      ingresar "Ingrese tipo de cuenta (D= Deudora A= Acreedora)", CUE_TIPO_CUENTA
+  hasta CUE_TIPO_CUENTA = "D" or  "A"
+  repetir
+      ingresar "es asentable?" (S/N)", CUE_ASENTABLE
+  hasta CUE_ASENTABLE = "S" or "N"
 IMPRIMIR_DESCRIPCION:
   imprimir "NRO_ASIENTO ", ASI_NRO_ASIENTO
   imprimir "NRO MOVIMIENTO ", ASI_NRO_MOVIM
@@ -142,11 +153,16 @@ IMPRIMIR_DESCRIPCION:
 retorno
 INGRESAR_DATOS_ASIENTO:
   ingresar "Perido", ASI_PERIODO
+  repetir
+      ingresar "Ingrese el tipo de movimiento (D = debito C= credito)", W_TIPO_MOVIM
+  hasta W_TIPO_MOVIM = "D" or "C"
+  Ingresar "Ingrese el importe debito: ", ASI_IMPORTE_DEBITO
+  ingresar "Ingrese el importe Credito: ", ASI_IMPORTE_CREDITO
 retorno
 INGRESAR_OPCION_MANTENIMIENTO:
   repetir
-      ingresar "DESEA (B= BAJA, M= MDOFICIACION, C= CONSULTA: ", W_OPCION
-  hasta W_OPCION = "B" or "M" or "C"   
+      ingresar "DESEA (B= BAJA ASIENTO, BM= BAJA MOVIMIENTO, A= ACTUALIZAR CUAENTA, C= CONSULTA: ", W_OPCION
+  hasta W_OPCION = "B" or "BM" or "A" or "C"   
 retorno
 INGRESAR_CONFIRMACION:
   repetir

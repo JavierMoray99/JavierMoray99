@@ -6,6 +6,7 @@ W_NRO_CUENTA        es numérico
 W_OPCION            es alfanumérico
 W_RESPUESTA         es alfanumérico
 W_TIPO_MOVIM        es alfanumérico
+W_NRO_MOVIM         es numérico
 
 archivo CUENTA
 registro REG_CUENTA
@@ -41,7 +42,6 @@ RUTINAS:
 PROCESO_INICIAL:
   imprimir " MANTENIMIENTOS DE ASIENTOS CONTABLES"
   ejecutar ABRIR_ARCHIVOS
-  ejecutar INGRESAR_NRO_CUENTA
   ejecutar INGRESAR_NRO_ASIENTO
 retorno
 
@@ -50,21 +50,18 @@ PROCESO_PRINCIPAL:
   ejecutar LEER_ASIENTO
      si existe (ASIENTO)
         ejecutar INGRESAR_NRO_CUENTA
-        ejecutar LEER_CUENTA
-        ejecutar VALIDAR_CUENTA
-     sino
-        ejecutar ALTA_ASIENTO
         ejecutar INGRESAR_OPCION_MANTENIMIENTO
         si W_OPCION = "B"
            ejecutar BAJA_ASIENTO
         sino
-          si W_OPCION = "BM"
+           si W_OPCION = "M"
+            ejecutar MODIFICACION_MOVIMIENTO 
+           sino
             ejecutar BAJA_MOVIMIENTO
-          sino
-            W_OPCION = "A"
-            ejecutar ACTUALIZAR_CUENTA
-        fin_si
-      fin_si
+           fin_si
+        fin_si   
+     sino
+        ejecutar ALTA_ASIENTO
       ejecutar LEER_NRO_ASIENTO
 retorno
 PROCESO_FINAL:
@@ -89,7 +86,10 @@ INGRESAR_NRO_MOVIM:
   ingresar "NRO DE MOVIMIENTO: ", ASI_NRO_MOVIM
 retorno  
 INGRESAR_NRO_CUENTA:
-  ingresar "Numero de cuenta:", CUE_NRO_CUENTA
+  repetir
+      ingresar "Numero de cuenta:", CUE_NRO_CUENTA
+      ejecutar LEER_CUENTA
+   hasta existe(CUENTA) and CUE_ASENTABLE = "S"
 ALTA_ASIENTO:
   INGRESAR "Asiento inexistene, desea agregar? (S/N):", W_RESPUESTA
   si W_RESPUESTA = "S"
@@ -101,11 +101,12 @@ ALTA_ASIENTO:
 retorno
 
 BAJA_ASIENTO:
-  ejecutar LEER_ASIENTO
-  ejecutar INGRESAR_CONFIRMACION
-  si W_RESPUESTA = "S"
-    borrar REG_ASIENTO
-    ASI_IMPORTE_CREDITO = ASI_IMPORTE_CREDITO - CUE_TOTAL_DEBITOS
+  ejecutar UBICAR_CUENTA
+  si ASI_NRO_ASIENTO = W_NRO_ASIENTO
+    ejecutar INGRESAR_CONFIRMACION
+    si W_RESPUESTA = "S"
+      borrar REG_ASIENTO
+      ASI_IMPORTE_CREDITO = ASI_IMPORTE_CREDITO - CUE_TOTAL_DEBITOS
   fin_si
 retorno
 
@@ -124,25 +125,7 @@ LEER_CUENTA:
   CUE_NRO_CUENTA = W_NRO_CUENTA
   clave CUE_NRO_CUENTA
   leer REG_CUENTA
-retorno  
-VALIDAR_CUENTA
-  ejecutar LEER_CUENTA
-  si existe(CUENTA)
-      repetir
-          ingresar "INGRESE SI EL TIPO DE CUENTA ES ASENTABLE", CUE_ASENTABLE
-      hasta CUE_ASENTABLE = "S"
-      ejecutar IMPRIMIR_DESCRIPCION
-   sino
-      INGRESAR_NRO_CUENTA
-   fin_si   
-ejecutar INGRESAR_DATOS_CUENTA
-  ingresar "DESCRIPCION", CUE_DESCRIPCION
-  repetir
-      ingresar "Ingrese tipo de cuenta (D= Deudora A= Acreedora)", CUE_TIPO_CUENTA
-  hasta CUE_TIPO_CUENTA = "D" or  "A"
-  repetir
-      ingresar "es asentable?" (S/N)", CUE_ASENTABLE
-  hasta CUE_ASENTABLE = "S" or "N"
+retorno    
 IMPRIMIR_DESCRIPCION:
   imprimir "NRO_ASIENTO ", ASI_NRO_ASIENTO
   imprimir "NRO MOVIMIENTO ", ASI_NRO_MOVIM
@@ -169,6 +152,20 @@ INGRESAR_CONFIRMACION:
     ingresar "CONFIRMA ESTA OPERACION ? (S/N): ", W_RESPUESTA
   hasta W_OPCION = "S" or "N"
 retorno
+UBICAR_CUENTA
+    CUE_NRO_CUENTA = W_NRO_CUENTA
+    clave =CUE_NRO_CUENTA
+    ubicar REG_CUENTA
+    ejecutar  LEER_SGTE_CUENTA
+retorno
+BAJA_MOVIMIENTO
+  si ASI_NRO_MOVIM = W_NRO_MOVIM
+      ejecutar INGRESAR_CONFIRMACION
+        si W_RESPUESTA= "S"
+           borrar ASI_NRO_MOVIM
+        fin_si
+   fin_si
+retorno   
 CERRAR_ARCHIVOS
   ejecutar CERRAR_ARCHIVO_ASIENTO
   ejecutar CERRAR_ARCHIVO_CUENTA

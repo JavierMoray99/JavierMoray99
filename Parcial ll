@@ -1,0 +1,60 @@
+Objetivo:
+Mantenimiento de una empresa de turismo
+ENTORNO:
+W_NRO_VIAJE
+
+archivo VIAJE
+registro REG_VIAJE
+  NRO_VIAJE             es numérico
+  NRO_CRUCERO           es numérico
+  PUERTO_ORIGEN         es alfanumérico
+  PUERTO_DESTINO        es alfanumérico
+  FEC_HORA_SALIDA       es alfanumérico
+  FEC_HORA_LLEGADA      es alfanumérico
+  MILLAS_ESTIMADAS      es numérico
+  MILLAS_REALES         es numérico
+fin_registro
+prefijo VIA
+
+archivo CRUCERO
+registro REG_CRUCERO
+  NRO_CRUCERO             es numérico
+  DESCRIPCION             es alfanumérico
+  MILLAS_VIAJE            es numérico
+  CANT_LUGARES            es numérico
+  CAPAC_CARGA_KG          es numérico
+  VOLUMEN_CARGA           es numérico
+fin_registro
+prefijo CRU
+
+archivo BOLETOS
+registro REG_BOLETOS
+  NRO_VIAJE         es numérico
+  NRO_BOLETO        es numérico
+  NRO_PASAJERO      es numérico
+  FECHA_BOLETO      es alfanumérico
+  PRECIO_BOLETO     es numérico
+fin_registro
+prefijo BOL
+
+archivo PASAJERO
+registro REG_PASAJERO
+  NRO_PASAJERO         es numérico
+  NRO_DOCUMENTO        es numérico
+  APELL_Y_NOMBRE       es alfanumérico
+  NACIONALIDAD         es alfanumérico
+  CANT_VIAJES          es numérico
+retorno
+prefijo PAS
+CUERPO PRINCIPAL:
+  inicio
+    ejecutar PROCESO_INICIAL
+    mientras W_NRO_VIAJE <> 0
+        ejecutar PROCESO_PRINCIPAL
+    fin_mientras
+    ejecutar PROCESO_FINAL
+  fin
+retorno
+
+ 
+

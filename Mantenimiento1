@@ -62,7 +62,7 @@ PROCESO_PRINCIPAL:
         fin_si   
      sino
         ejecutar ALTA_ASIENTO
-      ejecutar LEER_NRO_ASIENTO
+      ejecutar INGRESAR_NRO_ASIENTO
 retorno
 PROCESO_FINAL:
   ejecutar CERRAR_ARCHIVOS
@@ -87,7 +87,7 @@ INGRESAR_NRO_MOVIM:
 retorno  
 INGRESAR_NRO_CUENTA:
   repetir
-      ingresar "Numero de cuenta:", CUE_NRO_CUENTA
+      ingresar "Numero de cuenta:", W_NRO_CUENTA
       ejecutar LEER_CUENTA
    hasta existe(CUENTA) and CUE_ASENTABLE = "S"
 ALTA_ASIENTO:

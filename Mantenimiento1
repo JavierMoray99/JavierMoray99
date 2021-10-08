@@ -111,10 +111,10 @@ BAJA_ASIENTO:
 retorno
 
 ACTUALIZAR_CUENTA:
-  ejecutar INGRESAR_DATOS_CUENTA
   ejecutar INGRESAR_CONFIRMACION
   si W_RESPUESTA = "S"
       regrabar REG_CUENTA
+      CUE_IMPORTE_DEBITO = CUE_IMPORTE_DEBITO + CUE_TOTAL_DEBITOS
   fin_si    
 LEER_ASIENTO:
   ASI_NRO_ASIENTO = W_NRO_ASIENTO 
@@ -139,8 +139,10 @@ INGRESAR_DATOS_ASIENTO:
   repetir
       ingresar "Ingrese el tipo de movimiento (D = debito C= credito)", W_TIPO_MOVIM
   hasta W_TIPO_MOVIM = "D" or "C"
-  Ingresar "Ingrese el importe debito: ", ASI_IMPORTE_DEBITO
-  ingresar "Ingrese el importe Credito: ", ASI_IMPORTE_CREDITO
+  repetir
+      Ingresar "Ingrese el importe debito: ", ASI_IMPORTE_DEBITO
+      ingresar "Ingrese el importe Credito: ", ASI_IMPORTE_CREDITO
+  hasta   ASI_IMPORTE_DEBITO > 0 or ASI_IMPORTE_DEBITO = 0 or ASI_IMPORTE_CREDITO > 0 or ASI_IMPORTE_CREDITO = 0        
 retorno
 INGRESAR_OPCION_MANTENIMIENTO:
   repetir
@@ -159,8 +161,8 @@ UBICAR_CUENTA
     ejecutar  LEER_SGTE_CUENTA
 retorno
 BAJA_MOVIMIENTO
-  si ASI_NRO_MOVIM = W_NRO_MOVIM
-      ejecutar INGRESAR_CONFIRMACION
+  mientras ASI_NRO_MOVIM = W_NRO_MOVIM
+        ejecutar INGRESAR_CONFIRMACION
         si W_RESPUESTA= "S"
            borrar ASI_NRO_MOVIM
         fin_si

@@ -1,0 +1,36 @@
+PROCESAR_PRODUCTO: 
+    ejecutar LEER_PRODUCTO 
+    si existe(PRODUCTO) 
+      ejecutar IMPRIMIR_DATOS_PRODUCTO 
+      ejecutar LEER_ITEMFACT_CLAVE2 
+      si existe(ITEMFACT) 
+        imprimir "Desea dar de baja el ítem?" 
+        ejecutar INGRESAR_CONFIRMACION 
+        si W_RESPUESTA = "S" 
+            ejecutar ACTUALIZAR_PRODUCTO_BAJA 
+             ejecutar ACTUALIZAR_FACTURA_BAJA 
+              borrar REG_ITEMFACT 
+              CON_ITEMS = CON_ITEMS - 1 
+        fin_si 
+      sino 
+          si CON_ITEMS = W_MAX_CANT_ITEMS 
+              imprimir "Ya no se pueden agregar ITEMS a la FACTURA" 
+          sino 
+               ejecutar INGRESAR_CANTIDAD_ITEM 
+               imprimir "Desea dar de alta el ítem?"
+               ejecutar INGRESAR_CONFIRMACION 
+               si W_RESPUESTA = "S" 
+                  CON_ITEMS = CON_ITEMS + 1 
+                  ejecutar CARGAR_DATOS_ITEMFACT 
+                  grabar REG_ITEMFACT 
+                  ejecutar ACTUALIZAR_PRODUCTO_ALTA 
+                  ejecutar ACTUALIZAR_FACTURA_ALTA 
+                  imprimir "Importe total de la factura:", FAC_IMPORTE 
+                fin_si 
+            fin_si 
+       fin_si 
+    sino 
+        imprimir "ERROR: el PRODUCTO no existe" 
+  fin_si 
+        ejecutar INGRESAR_COD_PRODUCTO 
+retorno

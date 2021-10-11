@@ -11,7 +11,13 @@ PROCESAR_PRODUCTO:
              ejecutar ACTUALIZAR_FACTURA_BAJA 
               borrar REG_ITEMFACT 
               CON_ITEMS = CON_ITEMS - 1 
-        fin_si 
+        sino
+           imprimir "Desea modificar la cantidad de item?"
+              ejecutar INGRESAR_CONFIRMACION 
+              si W_RESPUESTA = "S" 
+                 ejecutar ACTUALIZAR_PRODUCTO_MODIFICACION
+                 ejecutar ACTUALIZAR_FACTURA_MODIFICACION
+               fin_si  
       sino 
           si CON_ITEMS = W_MAX_CANT_ITEMS 
               imprimir "Ya no se pueden agregar ITEMS a la FACTURA" 
@@ -34,3 +40,17 @@ PROCESAR_PRODUCTO:
   fin_si 
         ejecutar INGRESAR_COD_PRODUCTO 
 retorno
+ACTUALIZAR_PRODUCTO_MODIFICACION
+    si CON_ITEMS = W_MAX_CANT_ITEMS 
+              imprimir "Ya no se pueden agregar ITEMS a la FACTURA" 
+    sino
+        CON_ITEMS = CON_ITEMS + 1 
+        ejecutar CARGAR_DATOS_ITEMFACT   
+        PRO_EXIST_COMPROM = PRO_EXIST_COMPROM - ITE_CANTIDAD 
+        regrabar REG_PRODUCTO
+    fin_si
+retorno
+ACTUALIZAR_FACTURA_MODIFICACION
+    ejecutar CALCULAR_PRECIO_ITEM
+    FAC_IMPORTE = FAC_IMPORTE + W_PRECIO_ITEM 
+ retorno  

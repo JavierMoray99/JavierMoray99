@@ -55,6 +55,27 @@ CUERPO PRINCIPAL:
     ejecutar PROCESO_FINAL
   fin
 retorno
-
- 
-
+RUTINAS:
+PROCESO_INICIAL:
+  imprimir " MANTENIMIENTOS DE UNA EMPRESA DE TURISMO "
+  ejecutar ABRIR_ARCHIVOS
+  ejecutar INGRESAR_NRO_VIAJE
+retorno
+ PROCESO_PRINCIPAL:
+ ejecutar LEER_VIAJE
+      si existe (VIAJE)
+          ejecutar MOSTRAR_DATOS
+          ejecutar CONSULTA_VIAJE
+          ejecutar INGRESAR_OPCION_MANTENIMIENTO
+          si W_OPCION = "B"
+             ejecutar BAJA_VIAJE
+          sino
+            si W_OPCION = "M"
+              ejecutar MODIFICAR_VIAJE
+            fin_si
+       fin_si     
+      sino
+        ejecutar ALTA_VIAJE
+        ejecutar ejecutar INGRESAR_NRO_VIAJE  
+      fin_si
+retorno      

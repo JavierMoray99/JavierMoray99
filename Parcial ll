@@ -1,7 +1,8 @@
 Objetivo:
 Mantenimiento de una empresa de turismo
 ENTORNO:
-W_NRO_VIAJE
+W_NRO_VIAJE     es numérico
+W_OPCION        es numérico
 
 archivo VIAJE
 registro REG_VIAJE
@@ -105,4 +106,5 @@ INGRESAR_NRO_VIAJE:
   ingresar "Numero de viaje (ENTER p/ fin):", VIA_NRO_VIAJE
 retorno  
 LEER_VIAJE:
-
+  W_NRO_VIAJE = VIA_NRO_VIAJE
+  

@@ -4,6 +4,7 @@ ENTORNO:
 W_NRO_VIAJE     es numérico
 W_OPCION        es numérico
 W_RESPUESTA     es alfanúmerico
+CON_VIAJE       es numérico
 
 archivo VIAJE
 registro REG_VIAJE
@@ -128,6 +129,7 @@ ALTA_VIAJE:
       ejecutar INGRESAR_CONFIRMACION
       si W_RESPUESTA = "S"
           grabar REG_VIAJE
+          CON_VIAJE = 0
       fin_si
     fin_si
   fin_si  
@@ -136,9 +138,18 @@ MODIFICAR_VIAJE:
   ejecutar INGRESAR_DATOS_VIAJE_MODI  
   ejecutar INGRESAR_CONFIRMACION
   si W_RESPUESTA = "S"
-     ejecutar ACTUALIZAR_CRUERO
+     ejecutar ACTUALIZAR_CRUCERO
      regrabar REG_VIAJE
   fin_si
 retorno
-
-  
+BAJA_VIAJE:
+  si W_NRO_VIAJE = VIA_NRO_VIAJE
+     ejecutar INGRESAR_CONFIRMACION
+      si WRESPUESTA = "S"
+         borrar VIAJE
+         borrar BOLETO
+         CON_VIAJE = CON_VIAJE - 1
+      fin_si
+  fin_si
+retorno  
+          

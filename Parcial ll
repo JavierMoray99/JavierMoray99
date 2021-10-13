@@ -79,3 +79,30 @@ retorno
         ejecutar ejecutar INGRESAR_NRO_VIAJE  
       fin_si
 retorno      
+PROCESO_FINAL:
+  ejecutar CERRAR_ARCHIVOS
+  imprimir "** FIN DEL ARCHIVO**"
+retorno
+ABRIR_ARCHIVOS:
+   ejecutar ABRIR_ARCHIVO_VIAJE
+   ejecutar ABRIR_ARCHIVO_CRUCERO
+   ejecutar ABRIR_ARCHIVO_BOLETOS
+   ejecutar ABRIR_ARCHIVO_PASAJERO
+retorno
+ABRIR_ARCHIVO_VIAJE
+  abrir ASIENTO
+retorno
+ABRIR_ARCHIVO_CRUCERO
+  abrir CUETNA
+retorno
+ABRIR_ARCHIVO_BOLETOS
+  abrir ASIENTO
+retorno
+ABRIR_ARCHIVO_PASAJERO
+  abrir PASAJERO
+retorno
+INGRESAR_NRO_VIAJE:
+  ingresar "Numero de viaje (ENTER p/ fin):", VIA_NRO_VIAJE
+retorno  
+LEER_VIAJE:
+

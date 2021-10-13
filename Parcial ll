@@ -3,6 +3,7 @@ Mantenimiento de una empresa de turismo
 ENTORNO:
 W_NRO_VIAJE     es numérico
 W_OPCION        es numérico
+W_RESPUESTA     es alfanúmerico
 
 archivo VIAJE
 registro REG_VIAJE
@@ -67,14 +68,7 @@ retorno
       si existe (VIAJE)
           ejecutar MOSTRAR_DATOS
           ejecutar CONSULTA_VIAJE
-          ejecutar INGRESAR_OPCION_MANTENIMIENTO
-          si W_OPCION = "B"
-             ejecutar BAJA_VIAJE
-          sino
-            si W_OPCION = "M"
-              ejecutar MODIFICAR_VIAJE
-            fin_si
-       fin_si     
+          ejecutar INGRESAR_OPCION_MANTENIMIENTO    
       sino
         ejecutar ALTA_VIAJE
         ejecutar ejecutar INGRESAR_NRO_VIAJE  
@@ -107,4 +101,44 @@ INGRESAR_NRO_VIAJE:
 retorno  
 LEER_VIAJE:
   W_NRO_VIAJE = VIA_NRO_VIAJE
+  clave VIA_NRO_VIAJE
+  leer REG_VIAJE
+retorno
+CONSULTA_VIAJE:
+    si VIA_FEC_HORA_LLEGADA <> 0 AND  VIA_MILLAS_REALES <>0
+        imprimir "El viaje ya fue realizado, solo se permitira consultar"
+        ejecutar MOSTRAR_DATOS
+    sino
+        ingresar OPCION_MANTENIMIENTO
+        si W_OPCION = "M"
+            ejecutar BAJA_VIAJE
+        sino
+           si W_OPCION = "M"
+              ejecutar MODIFICAR_VIAJE
+            fin_si 
+         fin_si   
+    fin_si
+retorno
+ALTA_VIAJE:
+  ejecutar INGRESAR_NRO_CRUCERO
+  si existe (CRUCERO)
+    INGRESAR "Viaje inexistene, desea agregar? (S/N):", W_RESPUESTA
+    si W_RESPUESTA = "S"
+      ejecutar INGRESAR_DATOS_VIAJE
+      ejecutar INGRESAR_CONFIRMACION
+      si W_RESPUESTA = "S"
+          grabar REG_VIAJE
+      fin_si
+    fin_si
+  fin_si  
+retorno  
+MODIFICAR_VIAJE:
+  ejecutar INGRESAR_DATOS_VIAJE_MODI  
+  ejecutar INGRESAR_CONFIRMACION
+  si W_RESPUESTA = "S"
+     ejecutar ACTUALIZAR_CRUERO
+     regrabar REG_VIAJE
+  fin_si
+retorno
+
   

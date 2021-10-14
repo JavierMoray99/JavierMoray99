@@ -113,6 +113,7 @@ CONSULTA_VIAJE:
         ingresar OPCION_MANTENIMIENTO
         si W_OPCION = "M"
             ejecutar BAJA_VIAJE
+            ejecutar ACTUALIZAR_VIAJE_BAJA
         sino
            si W_OPCION = "M"
               ejecutar MODIFICAR_VIAJE
@@ -148,7 +149,7 @@ BAJA_VIAJE:
       si WRESPUESTA = "S"
          borrar VIAJE
          borrar BOLETO
-         CON_VIAJE = CON_VIAJE - 1
+         CON_VIAJE = CON_VIAJE - 11
       fin_si
   fin_si
 retorno  

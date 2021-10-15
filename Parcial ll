@@ -4,7 +4,7 @@ ENTORNO:
 W_NRO_VIAJE     es numérico
 W_OPCION        es numérico
 W_RESPUESTA     es alfanúmerico
-CON_VIAJE       es numérico
+W_NRO_CRUCERO   es numérico
 
 archivo VIAJE
 registro REG_VIAJE
@@ -68,8 +68,7 @@ retorno
  ejecutar LEER_VIAJE
       si existe (VIAJE)
           ejecutar MOSTRAR_DATOS
-          ejecutar CONSULTA_VIAJE
-          ejecutar INGRESAR_OPCION_MANTENIMIENTO    
+          ejecutar CONSULTA_VIAJE   
       sino
         ejecutar ALTA_VIAJE
         ejecutar ejecutar INGRESAR_NRO_VIAJE  
@@ -85,16 +84,16 @@ ABRIR_ARCHIVOS:
    ejecutar ABRIR_ARCHIVO_BOLETOS
    ejecutar ABRIR_ARCHIVO_PASAJERO
 retorno
-ABRIR_ARCHIVO_VIAJE
+ABRIR_ARCHIVO_VIAJE:
   abrir VIAJE
 retorno
-ABRIR_ARCHIVO_CRUCERO
+ABRIR_ARCHIVO_CRUCERO:
   abrir CRUCERO
 retorno
-ABRIR_ARCHIVO_BOLETOS
+ABRIR_ARCHIVO_BOLETOS:
   abrir BOLETOS
 retorno
-ABRIR_ARCHIVO_PASAJERO
+ABRIR_ARCHIVO_PASAJERO:
   abrir PASAJERO
 retorno
 INGRESAR_NRO_VIAJE:
@@ -111,9 +110,8 @@ CONSULTA_VIAJE:
         ejecutar MOSTRAR_DATOS
     sino
         ingresar OPCION_MANTENIMIENTO
-        si W_OPCION = "M"
+        si W_OPCION = "B"
             ejecutar BAJA_VIAJE
-            ejecutar ACTUALIZAR_VIAJE_BAJA
         sino
            si W_OPCION = "M"
               ejecutar MODIFICAR_VIAJE
@@ -139,18 +137,88 @@ MODIFICAR_VIAJE:
   ejecutar INGRESAR_DATOS_VIAJE_MODI  
   ejecutar INGRESAR_CONFIRMACION
   si W_RESPUESTA = "S"
+     regrabar VIAJE
+     regrabar CRUCERO
      ejecutar ACTUALIZAR_CRUCERO
-     regrabar REG_VIAJE
   fin_si
-retorno
+  retorno
 BAJA_VIAJE:
-  si W_NRO_VIAJE = VIA_NRO_VIAJE
+  si VIA_NRO_VIAJE = W_NRO_VIAJE
      ejecutar INGRESAR_CONFIRMACION
       si WRESPUESTA = "S"
+         ejecutar ACTUALIZAR_PASAJERO
          borrar VIAJE
          borrar BOLETO
-         CON_VIAJE = CON_VIAJE - 11
       fin_si
   fin_si
 retorno  
-          
+INGRESAR_DATOS_VIAJE_MODI:
+   repetir
+        ingresar "Ingrese la nueva fecha hora de llegada", VIA_FEC_HORA_LLEGADA
+   hasta VIA_FEC_HORA_LLEGADA > 0 and VIA_FEC_HORA_LLEGADA > VIA_VIA_FEC_HORA_SALIDA
+   repetir
+        ingresar "Ingrese Millas reales", VIA_MILLAS_REALES
+   hasta VIA_MILLAS_REALES > 0
+retorno   
+INGRESAR_DATOS_VIAJE:
+  repetir
+        Ingresar "Ingrese el Puerto de Origen", VIA_PUERTO_ORIGEN
+  hasta VIA_PUERTO_ORIGEN <> ""
+  repetir
+        Ingresar "Ingrese el Puerto de destino: ", VIA_PUERTO_DESTINO
+  hasta VIA_PUERTO_DESTINO <> "" and  VIA_PUERTO_DESTINO <> VIA_PUERTO_ORIGEN
+  repetir
+        Ingresar "Ingrese La fecha hora de salida: ", VIA_FEC_HORA_SALIDA
+  hasta VIA_FEC_HORA_SALIDA > 0
+  VIA_FEC_HORA_SALIDA = 0
+  repetir
+        Ingresar "Ingrese las millas estimadas: ", VIA_MILLAS_ESTIMADAS
+  hasta MILLAS_ESTIMADAS > 0
+  VIA_MILLAS_REALES = 0
+retorno 
+OPCION_MANTENIMIENTO:
+  repetir
+      ingresar "Desea (B)aja, (M)doficiacion: ", W_RESPUESTA
+  hasta W_RESPUESTA = "S" or "M"
+retorno  
+INGRESAR_CONFIRMACION:
+  repetir
+    ingresar "Confirma la operacion (S/N)", W_RESPUESTA
+  hasta W_RESPUESTA = "S" or  "N"
+retorno  
+ACTUALIZAR_CRUCERO:
+    CRU_MILLAS_VIAJE = CRU_MILLAS_VIAJE + VIA_MILLAS_REALES
+    regrabar CRUCERO
+retorno
+ACTUALIZAR_PASAJERO:
+    PAS_ACTUALIZAR_PASAJERO = ACTUALIZAR_PASAJERO - 1
+    regrabar PASAJERO
+retorno
+MOSTRAR_DATOS:
+  imprimir "Nro de viaje: ", VIA_NRO_VIAJE
+  imprimir "Nro de crucero: ", VIA_NRO_CRUCERO
+  imprimir " Puerto de origen: ", VIA_PUERTO_ORIGEN
+  imprimir "Puerto destino: ", VIA_PUERTO_DESTINO
+  imprimir "Fecha hora de salida: ", VIA_FEC_HORA_SALIDA
+  imprimir "Fecha hora de Llegada: ", VIA_FEC_HORA_LLEGADA
+  imprimir "Millas estimadas: ", VIA_MILLAS_ESTIMADAS
+  imprimir "Millas reales: ", VIA_MILLAS_REALES
+retorno
+CERRAR_ARCHIVOS:
+  ejecutar CERRAR_ARCHIVO_VIAJE
+  ejecutar CERRAR_ARCHIVO_CRUCERO
+  ejecutar CERRAR_ARCHIVO_BOLETOS
+  ejecutar CERRAR_ARCHIVO_PASAJERO
+retorno
+CERRAR_ARCHIVO_VIAJE:
+    cerrar VIAJE
+retorno 
+CERRAR_ARCHIVO_CRUCERO:
+    cerrar CRUCERO
+retorno
+CERRAR_ARCHIVO_BOLETOS
+    cerrar BOLETOS
+retorno
+CERRAR_ARCHIVO_PASAJERO:
+    cerrar PASAJERO
+retorno    

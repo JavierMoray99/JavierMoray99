@@ -1,0 +1,23 @@
+OBJETIVO:
+Proceso de generación de pago de haberes de los profesores de la Universidad
+ENTORNO:
+
+archivo CLASEXAM
+registro REG_CLASEXAM
+  PERIODO           es alfanumérico
+  ID_PROFESOR       es numérico
+  FECHA             es alfanumérico 
+  TIPO              es alfanumérico
+  CANTIDAD          es numérico
+  PROCESADO         es alfanumérico
+fin_registro
+prefijo CLA
+
+archivo PROFESOR
+registro REG_PROFESOR
+   ID_PROFESOR       es numérico
+   NRO_CEDULA        es numérico
+   NOM_Y_APEL        es alfanumérico 
+   SALARIO_HORA      es alfanumérico 
+   CATEGORIA         es numérico 
+   PERI_ULT_LIQUID   es alfanumérico 

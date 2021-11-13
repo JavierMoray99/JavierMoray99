@@ -21,3 +21,37 @@ registro REG_PROFESOR
    SALARIO_HORA      es alfanumérico 
    CATEGORIA         es numérico 
    PERI_ULT_LIQUID   es alfanumérico 
+fin_registro   
+prefijo PRO
+
+archivo ANTICIPO
+registro REG_ANTICIPO
+    ID_PROFESOR     es numérico
+    PERIODO         es alfanumérico
+    FECHA_ANTICIPO  es alfanumérico
+    CONCEPTO        es alfanumérico
+    MONTO           es numérico
+fin_registro
+prefijo  ANT
+
+archivo PAGOHAB
+registro REG_PAGOHAB
+    PERIODO         es alfanumérico
+    ID_PROFESOR     es numérico
+    CANT_SESIONES   es numérico
+    CANT_EXAMENES   es numérico
+    TOTAL_DEBITOS   es numérico
+    TOTAL_CREDITOS  es numérico
+    MONTO_IPS       es numérico
+    MONTO_IVA       es numérico
+fin_registro
+prefijo   PHA
+CUERPO PRINCIPAL:
+  inicio
+      ejecutar PROCESO_INICIAL
+       mientras <>0
+          ejecutar PROCESO_PRINCIPAL
+      fin_mientras
+      ejecutar PROCESO_FINAL
+  fin
+  retorno

@@ -55,3 +55,8 @@ CUERPO PRINCIPAL:
       ejecutar PROCESO_FINAL
   fin
   retorno
+PROCESO_INICIAL:
+  imprimir " PAGO DE HABERES DE PROFERSORES DE LA UNIVERSIDAD "
+  ejecutar ABRIR_ARCHIVOS
+  ejecutar LEER_SGTE_CLASEXAM
+retorno

@@ -63,3 +63,7 @@ PROCESO_INICIAL:
 retorno
 PROCESO_PRINCIPAL:
   ejecutar LEER_CLASEXAM
+  si existe (CLASEXAM)
+      si CLA_PROCESADO = "S"
+        ejecutar PROCESAR_PAGO_HABER
+        

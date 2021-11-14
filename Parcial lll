@@ -49,7 +49,7 @@ prefijo   PHA
 CUERPO PRINCIPAL:
   inicio
       ejecutar PROCESO_INICIAL
-       mientras <>0
+       mientras CLA_ID_PROFESOR <>0
           ejecutar PROCESO_PRINCIPAL
       fin_mientras
       ejecutar PROCESO_FINAL

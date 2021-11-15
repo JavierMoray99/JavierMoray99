@@ -33,6 +33,8 @@ registro REG_ANTICIPO
     MONTO           es numérico
 fin_registro
 prefijo  ANT
+CON_LINEAS numérico 
+CON_PAG numérico
 
 archivo PAGOHAB
 registro REG_PAGOHAB

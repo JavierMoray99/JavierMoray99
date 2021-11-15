@@ -68,4 +68,23 @@ PROCESO_PRINCIPAL:
   si existe (CLASEXAM)
       si CLA_PROCESADO = "S"
         ejecutar PROCESAR_PAGO_HABER
-        
+      sino
+        imprimir "Error, tiene que estar procesaro"
+      fin_si
+  sino
+     imprimir "No existe clases y examenes"
+  fin_si
+  leer_SGTE_CLASEXAM
+retorno
+PROCESO_FINAL:
+  ejecutar CERRAR_ARCHIVOS
+  imprimir "**FIN DEL PROGRAMA"
+retorno
+ABRIR_ARCHIVOS:
+  abrir CLASEXAM
+  abrir PROFESOR
+  abrir ANTICIPO
+  abrir PAGOHAB
+retorno
+
+   

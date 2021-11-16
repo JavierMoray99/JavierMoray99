@@ -67,9 +67,10 @@ PROCESO_PRINCIPAL:
   ejecutar LEER_CLASEXAM
   si existe (CLASEXAM)
       si CLA_PROCESADO = "S"
-      si existe (PAGOHAB)
+        si existe (PAGOHAB)
           ejecutar BORRAR_PROFESOR
           ejecutar PROCESAR_PAGO_HABER
+      fin_si    
       sino
         imprimir "Error, tiene que estar procesaro"
       fin_si

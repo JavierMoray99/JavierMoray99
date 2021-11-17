@@ -33,8 +33,8 @@ registro REG_ANTICIPO
     MONTO           es numérico
 fin_registro
 prefijo  ANT
-CON_LINEAS numérico 
-CON_PAG numérico
+CON_LINEAS          es numérico 
+CON_PAG             es numérico
 
 archivo PAGOHAB
 registro REG_PAGOHAB
@@ -60,6 +60,7 @@ CUERPO PRINCIPAL:
 PROCESO_INICIAL:
   imprimir " PAGO DE HABERES DE PROFERSORES DE LA UNIVERSIDAD "
   ejecutar ABRIR_ARCHIVOS
+  ejecutar INICIALIZAR_DATOS
   ejecutar IMPRIMIR_TITULOS
   ejecutar LEER_SGTE_CLASEXAM
 retorno
@@ -89,5 +90,35 @@ ABRIR_ARCHIVOS:
   abrir ANTICIPO
   abrir PAGOHAB
 retorno
-
-   
+INICIALIZAR_DATOS:
+   CON_PAGINA = 1 
+   CON_LINEA = 99
+IMPRIMIR_TITULOS:
+ CON_LINEA >66
+      imprimir "                                                     Resumen de la liquidacion del profesor    PAG: ",                CON_PAGINA
+      Imprimir " "
+      imprimir "Periodo del pago      Nro de cedula     Nombre y Apellido    Cantidad de Sesiones   Cantidad de Exámenes   Monto Crédito   Monto Débito   Monto a Percibir   Monto IPS   Monto IVA   "
+      CON_LINEA = 3
+      CON_PAGINA = CON_PAGINA = CON_PAGINA + 1
+   sino
+      CON_LINEA = CON_LINEA + 1 
+   fin_si 
+retorno
+LEER_SGTE_CLASEXAM:
+       si eof(CLA_ID_PROFESOR)
+        CLA_ID_PROFESOR = 0
+    sino
+        leer REG_CLASEXAM
+    fin_si
+retorno
+LEER_CLASEXAM:
+    CLA_ID_PROFESOR = PHA_ID_PROFESOR
+    clave CLA_PERIODO + CLA_ID_PROFESOR
+    leer REG_LASEXAM
+retorno
+BORRAR_PROFESOR:
+  borrar REG_CLA_ID_PROFESOR
+retorno
+PROCESAR_PAGO_HABER:
+    
+    

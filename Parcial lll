@@ -87,10 +87,10 @@ PROCESO_FINAL:
   imprimir "**FIN DEL PROGRAMA"
 retorno
 ABRIR_ARCHIVOS:
-  abrir CLASEXAM
-  abrir PROFESOR
-  abrir ANTICIPO
-  abrir PAGOHAB
+  ejecutar ABRIR_ARCHIVO_CLASEXAM
+  ejecutar ABRIR_ARCHIVO_abrir_PROFESOR
+  ejecutar ABRIR_ARCHIVO_abrir_ANTICIPO
+  ejecutar ABRIR_ARCHIVO_abrir_PAGOHAB
 retorno
 INICIALIZAR_DATOS:
    CON_PAGINA = 1 

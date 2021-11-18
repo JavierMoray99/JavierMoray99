@@ -35,6 +35,8 @@ fin_registro
 prefijo  ANT
 CON_LINEAS          es numérico 
 CON_PAG             es numérico
+ACU_ANTI            es numérico 
+
 
 archivo PAGOHAB
 registro REG_PAGOHAB
@@ -121,4 +123,47 @@ BORRAR_PROFESOR:
 retorno
 PROCESAR_PAGO_HABER:
     
-    
+    ejecutar NUEVO_REGISTRO_HABER
+    ejecutar ACTUALIZAR_PROFESOR
+    ejecutar IMPRIMIR_DATOS
+retorno
+CALCULAR_DEBITOS:
+  ejecutar UBICAR_ANTICIPO
+  ACU_ANTI = ACU_ANTI + MONTO 
+retorno  
+retorno
+CALCULAR_CREDITOS:
+  ejecutar LEER_CLASEXAM
+  ejecutar LEER_PROFESOR
+  W_TOTAL_CREDITO = W_MONTO_A_PAGAR + W_EXAMENES_CORR
+  si CLA_TIPO = "C"
+    W_MONTO_A_PAGAR = PHA_CANT_SESIONES * PRO_SALARIO_HORA
+  fin_si  
+  si  CLA_TIPO = "E"
+    W_EXAMENES_CORR = (PHA_CANT_EXAMENES * 70000)
+  sino
+    si CLA_TIPO = "R"
+        W_EXAMENES_CORR = (PHA_CANT_EXAMENES * 90000)
+    fin_si    
+fin_si
+CALCULAR_MONTO_IPS:
+  si PRO = 1
+      W_MONTO_IPS = W_TOTAL_CREDITO * 0.009
+  sino
+      W_MONTO_IPS = = 0
+  fin_si
+retorno
+CALULAR_IVA:
+   si PRO = 2
+      W_MONTO_IVA = W_TOTAL_CREDITO * 0.10
+   sino
+      W_MONTO_IVA = 0
+   fin_si
+retorno   
+UBICAR_ANTICIPO:
+   ANT_ID_PROFESOR = PRO_ID_PROFESOR
+   clave ANT_ID_PROFESOR+ ANT_PERIODO
+   ubicar REG_ANT_ID_PROFESOR
+   ejecuar LEER_SGTE_ANTICIPO
+retorno   
+  

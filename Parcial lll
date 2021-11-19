@@ -33,10 +33,6 @@ registro REG_ANTICIPO
     MONTO           es numérico
 fin_registro
 prefijo  ANT
-CON_LINEAS          es numérico 
-CON_PAG             es numérico
-ACU_ANTI            es numérico 
-
 
 archivo PAGOHAB
 registro REG_PAGOHAB
@@ -47,9 +43,18 @@ registro REG_PAGOHAB
     TOTAL_DEBITOS   es numérico
     TOTAL_CREDITOS  es numérico
     MONTO_IPS       es numérico
-    MONTO_IVA       es numérico
+    MONTO_IVA       es numérico 
 fin_registro
 prefijo   PHA
+
+CON_LINEAS          es numérico 
+CON_PAG             es numérico
+ACU_ANTI            es numérico 
+W_MONTO_IVA         es numérico
+W_MONTO_IPS         es numérico
+W_EXAMENES_CORR     es numérico  
+CON_CANT            es numérico 
+ W_TOTAL_CREDITO    es numérico
 CUERPO PRINCIPAL:
   inicio
       ejecutar PROCESO_INICIAL
@@ -94,13 +99,13 @@ ABRIR_ARCHIVOS:
 retorno
 INICIALIZAR_DATOS:
    CON_PAGINA = 1 
-   CON_LINEA = 99
+   CON_LINEAS = 99
 IMPRIMIR_TITULOS:
  CON_LINEA >66
       imprimir "                                                     Resumen de la liquidacion del profesor    PAG: ",                CON_PAGINA
       Imprimir " "
       imprimir "Periodo del pago      Nro de cedula     Nombre y Apellido    Cantidad de Sesiones   Cantidad de Exámenes   Monto Crédito   Monto Débito   Monto a Percibir   Monto IPS   Monto IVA   "
-      CON_LINEA = 3
+      CON_LINEAS = 3
       CON_PAGINA = CON_PAGINA = CON_PAGINA + 1
    sino
       CON_LINEA = CON_LINEA + 1 
@@ -125,11 +130,14 @@ PROCESAR_PAGO_HABER:
     
     ejecutar NUEVO_REGISTRO_HABER
     ejecutar ACTUALIZAR_PROFESOR
-    ejecutar IMPRIMIR_DATOS
+    ejecutar ACTUALIZAR_PROCESO
+    ejecutar IMPRIMIR_TITULOS
+    imprimir PHA_PERIODO, PRO_NRO_CEDULA, PRO_NRO_CEDULA, PHA_CANT_SESIONES, PHA_CANT_EXAMENES, PHA_TOTAL_CREDITOS, PHA_TOTAL_DEBITOS, (PHA_TOTAL_CREDITOS - PHA_TOTAL_CREDITOS + PHA_MONTO_IVA), PHA_MONTO_IPS, PHA_MONTO_IVA
+    
 retorno
 CALCULAR_DEBITOS:
   ejecutar UBICAR_ANTICIPO
-  ACU_ANTI = ACU_ANTI + MONTO 
+  ACU_ANTI = ACU_ANTI + ANT_MONTO 
 retorno  
 retorno
 CALCULAR_CREDITOS:
@@ -138,19 +146,23 @@ CALCULAR_CREDITOS:
   W_TOTAL_CREDITO = W_MONTO_A_PAGAR + W_EXAMENES_CORR
   si CLA_TIPO = "C"
     W_MONTO_A_PAGAR = PHA_CANT_SESIONES * PRO_SALARIO_HORA
+    CON_CANT = CON_CANT + 1 
   fin_si  
   si  CLA_TIPO = "E"
     W_EXAMENES_CORR = (PHA_CANT_EXAMENES * 70000)
+    CON_CANT = CON_CANT + 1
   sino
     si CLA_TIPO = "R"
         W_EXAMENES_CORR = (PHA_CANT_EXAMENES * 90000)
-    fin_si    
-fin_si
+        CON_CANT = CON_CANT + 1
+    fin_si
+  fin_si
+retorno
 CALCULAR_MONTO_IPS:
   si PRO = 1
       W_MONTO_IPS = W_TOTAL_CREDITO * 0.009
   sino
-      W_MONTO_IPS = = 0
+      W_MONTO_IPS =  0
   fin_si
 retorno
 CALULAR_IVA:
@@ -165,5 +177,53 @@ UBICAR_ANTICIPO:
    clave ANT_ID_PROFESOR+ ANT_PERIODO
    ubicar REG_ANT_ID_PROFESOR
    ejecuar LEER_SGTE_ANTICIPO
-retorno   
-  
+retorno
+LEER_PROFESOR:
+  PRO_ID_PROFESOR = CLA_ID_PROFESOR
+  clave PRO_ID_PROFESOR
+  leer REG_PROFESOR
+retorno  
+ NUEVO_REGISTRO_HABER:
+    PHA_ID_PROFESOR = CLA_ID_PROFESOR
+    PHA_PERIODO = CLA_PERIODO
+    PHA_CANT_SESIONES = CON_CANT
+    PHA_CANT_EXAMENES = CLA_CANTIDAD
+    PHA_CANTIDAD_DEBITOS = ACU_ANTI
+    PHA_TOTAL_CREDITOS = W_TOTAL_CREDITO
+    PHA_MONTO_IPS = W_MONTO_IPS
+    PHA_MONTO_IVA = W_MONTO_IVA
+    regrabar PAGOHAB  
+retorno    
+ejecutar ACTUALIZAR_PROFESOR:
+  PERI_ULT_LIQUID = PHA_PERIODO
+  regrabar PROFESOR
+retorno
+ACTUALIZAR_PROCESO:
+ CLA_PROCESADO = "S"
+ regrabar CLASEXAM
+retorno 
+LEER_SGTE_ANTICIPO:
+  Si eof (ID_PROFESOR)
+     ANT_ID_PROFESOR = 0
+  sino
+     leer REG_ANTICIPO
+  fin_si
+retorno  
+CERRAR_ARCHIVOS:
+  cerrar CLASEXAM
+  cerrar PROFESOR
+  cerrar ANTICIPO
+  cerrar PAGOHAB
+retorno  
+ABRIR_ARCHIVO_CLASEXAM:
+  abrir CLAASEXAM
+retorno
+ABRIR_ARCHIVO_PROFESOR:
+  abrir PROFESOR
+retorno  
+ABRIR_ARCHIVO_ANTICIPO
+  abrir ANTICIPO
+retorno  
+ABRIR_ARCHIVO_PAGOHAB
+  abrir PAGOHAB
+retorno

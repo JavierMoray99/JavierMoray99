@@ -80,7 +80,7 @@ PROCESO_PRINCIPAL:
           ejecutar PROCESAR_PAGO_HABER
       fin_si    
       sino
-        imprimir "Error, tiene que estar procesaro"
+        imprimir "Error, tiene que estar procesado"
       fin_si
   sino
      imprimir "No existe clases y examenes"

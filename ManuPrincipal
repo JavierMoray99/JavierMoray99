@@ -18,3 +18,33 @@ PROCESO_INICIAL:
   imprimir "Menú principal del sistema de produccion"
   ejecutar INGRESAR_OPCION_MENU
 retorno  
+
+PROCESO_PRINCIPAL:
+  evaluar W_OPCION_MENU
+    W_OPCION_MENU = 1
+      programa "MAN_MATERIAS_PRIMAS"
+    W_OPCION_MENU = 2
+      programa "MAN_FORMULAS"
+    W_OPCION_MENU = 3
+      programa " CARGA_DE_ORDENES_DE_PRODUCCION"
+    W_OPCION_MENU = 4   
+      programa "CON_MATERIASPRI"
+   otro
+      imprimir "ERROR: LA OPCION ES INCORRECTA"
+   fin_evaluar
+   ejecuar INGRESAR_OPCION_MENU
+retorno
+
+PROCESO_FINAL:
+  imprimir "** FIN DEL PROCESO **"
+retorno
+
+INGRESAR_OPCION_MENU:
+  imprimir " Sistema de panadería"
+  imprimir " MENU PRINCIPAL "
+  imprimir " 1) Mantenimiento de Materias Primas "
+  imprimir " 2) Mantenimiento de Formulas  "
+  imprimir " 3) Carga de Ordenes de Producción  "
+  imprimir " 4) Consultas de Materias Primas "
+  ingresar "Ingrese opcion (1 a 4 ) o Enter p/fin:", W_OPCION_MENU
+retorno  

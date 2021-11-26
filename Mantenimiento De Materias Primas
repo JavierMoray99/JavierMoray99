@@ -1,0 +1,187 @@
+Objetivo:
+  Mantenimiento de Materias Primas
+
+Entorno
+  W_COD_MATPRI      es numérico
+  W_OPCION          es numérico
+  W_RESPUESTA       es numérico
+
+archivo MATPRIMA
+registro REG_MATPRIMA
+  COD_MATPRI        es numérico
+  DESCRIPCION       es alfanumérico
+  UNI_MEDIDA        es alfanumérico
+  EXI_ACTUAL        es numérico
+  COSTO             es numérico
+fin_registro 
+prefijo MAP
+archivo FORMULA
+registro REG_FORMULA
+  COD_FORMULA       es numérico
+  COD_MATPRI        es numérico
+  CANT_UNITARIA     es numérico
+fin_registro
+prefijo FOR
+
+CUERPO PRINCIPAL:
+inicio
+  ejecurar PROCESO_INICIAL
+  mientras W_COD_MATPRI <> 0
+     ejecurar PROCESO_PRINCIPAL
+  fin_mientras    
+  ejecutar PROCESO_FINAL
+fin
+RUTINAS
+PROCESO_INICIAL:
+  imprimir "Mantenimiento de Materias Primas"
+  ejecutar ABRIR_ARCHIVOS
+  ejecutar INGRESAR_COD_MATPRI
+retorno
+
+PROCESO_PRINCIPAL:
+  ejecutar LEER_MATPRIMA
+  si existe (MATPRIMA)
+     ejecutar IMPRIMIR_DETALLES_MATPRIM
+     ejecutar INGRESAR_OPCION_MANTENIMIENTO
+     si W_OPCION = "B"
+        ejecutar BAJA_MATEPRI
+     sino
+        si W_OPCION = "M"
+           ejecutar MODIFICACION_MATEPRI
+        fin_si
+      fin_si
+   sino
+      ejecutar ALTA_MATEPRI
+   fin_si
+   ejecutar INGRESAR_COD_MATPRI
+retorno
+
+PROCESO_FINAL:
+  ejecutar CERRAR_ARCHIVOS
+  imrpmir "** FIN DEL PROCESO **"
+retorno
+
+** RUTINAS PRINCIPALES **
+ABRIR_ARCHIVOS:
+  ejecutar ABRIR_ARCHIVO_MATPRIMA
+  ejecutar ABRIR_ARCHIVO_FORMULA
+retorno
+
+ALTA_MATEPRI:
+  ingresar "La materia prima es inexistente, ¿Desea agregarlo? (S/N):", W_RESPUESTA
+  ejecutar INGRESAR_DATOS_MATEPRI
+  MAP_EXI_ACTUAL = 0
+  ejecutar INGRESAR_CONFIRMACION
+  si W_RESPUESTA = "S"
+     grabar REG_MATPRIMA
+  fin_si
+retorno
+
+MODIFICACION_MATEPRI:
+  ejecutar INGRESAR_DATOS_MATEPRI
+  ejecutar INGRESAR_CONFIRMACION
+  si W_RESPUESTA = "S"
+    regrabar REG_MATPRIMA
+  fin_si
+retorno
+
+BAJA_MATEPRI:
+  ejecutar UBICAR_FORMULA_CLAVE2
+  si FOR_COD_MATPRI = W_COD_MATPRI
+     imprimir "Error al eliminar, la misma ya esta en una formula"
+  sino
+    ejecutar INGRESAR_CONFIRMACION
+    si W_RESPUESTA = "S"
+       borrar REG_MATPRIMA
+    fin_si
+  fin_si
+retorno
+
+CERRAR_ARCHIVOS:
+  ejecutar CERRAR_ARCHIVO_MATPRIMA
+  ejecutar CERRAR_ARCHIVO_FORMULA
+retorno
+
+** RUTINAS PARA INGRESO DE DATOS  **
+INGRESAR_COD_MATPRI:
+  ingresar "Codigo de la Materia Prima (ENTER P/ FIN):", W_COD_MATPRI
+retorno
+
+INGRESAR_DATOS_MATEPRI:
+  ejecutar INGRESAR_DESCRIPCION_MATEPRI
+  ejecutar INGRESAR_UNIDAD_MEDIDA
+  ejecutar INGRESAR_COSTO
+retorno
+
+INGRESAR_DESCRIPCION_MATEPRI:
+  repetir
+    ingresar "Descripcion      :", MAP_DESCRIPCION
+  hasta   MAP_DESCRIPCION <> ""
+retorno
+INGRESAR_UNIDAD_MEDIDA:
+  repetir
+    ingresar "Unidad de medida     :", MAP_UNI_MEDIDA
+  hasta   MAP_UNI_MEDIDA <> ""
+retorno
+INGRESAR_COSTO:
+  repetir
+    ingresar "Costo    :", MAP_COSTO
+  hasta   MAP_COSTO > 0
+retorno
+
+INGRESAR_OPCION_MANTENIMIENTO:
+  repetir
+    ingresar "Desea Baja (B), Modificacion (M) o Consulta (C): ", W_OPCION
+  hasta   W_OPCION = "S" or "N"
+retorno
+
+INGRESAR_CONFIRMACION:
+  repetir
+    ingresar " ¿Confirma la operacion? (S/N): ", W_RESPUESTA
+  hasta   W_RESPUESTA = "S" or "N"
+retorno
+
+** RUTINAS DE IMPRESION **
+IMPRIMIR_DETALLES_MATPRIM:
+  imprimir "Codigo                :", MAP:COD_MATPRI
+  imprimir " Descripcion          :", MAP_DESCRIPCION   
+  imprimir "Unidad de Medida      :", MAP_UNI_MEDIDA
+  imprimir "Existencia Actual     :", MAP_EXI_ACTUAL
+  imprimir " Costo                :", MAP_COSTO
+retorno
+
+** RUTINAS PARA ACCESO DE ARCHIVOS**
+ABRIR_ARCHIVO_MATPRIMA
+  abrir MATPRIMA
+retorno
+ABRIR_ARCHIVO_FORMULA
+  abrir FORMULA
+retorno
+
+LEER_MATPRIMA:
+  MAP_COD_MATPRI = w_COD_MATPRI
+  clave MAP_COD_MATPRI
+  leer REG_MATPRIMA
+retorno
+
+UBICAR_FORMULA_CLAVE2:
+  FOR_COD_MATPRI = W_COD_MATPRI
+  clave FOR_COD_MATPRI + FOR_COD_FORMULA
+  ubicar REG_FORMULA
+  ejecutar LEER_SGTE_FORMULA
+retorno
+
+LEER_SGTE_FORMULA:
+  si eof (FORMULA) = 0
+     FOR_COD_MATPRI = 0
+  sino
+      leer REG_FORMULA
+   fin_si
+retorno
+
+CERRAR_ARCHIVO_MATEPRI  
+  cerrar MATPRIMA
+retorno
+CERRAR_ARCHIVO_FORMULA
+  cerrar FORMULA
+retorno  

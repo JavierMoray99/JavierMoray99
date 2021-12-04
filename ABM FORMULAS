@@ -1,0 +1,33 @@
+Objetivo:
+  Mantenimiento de Formulas
+  Entorno
+  W_COD_FORMULA      es numérico
+  W_OPCION           es numérico
+  W_RESPUESTA        es numérico
+  
+archivo MATPRIMA
+registro REG_MATPRIMA
+  COD_MATPRI        es numérico
+  DESCRIPCION       es alfanumérico
+  UNI_MEDIDA        es alfanumérico
+  EXI_ACTUAL        es numérico
+  COSTO             es numérico
+fin_registro 
+prefijo MAP
+
+arhivo FORMULA
+registro REG_FORMULA
+  COD_FORMULA       es numérico
+  COD_MATPRI        es numérico
+  CANT_UNITARIA     es numérico
+fin_registro
+prefijo FOR
+
+CUERPO PRINCIPAL:
+inicio
+  ejecurar PROCESO_INICIAL
+  mientras W_COD_FORMULA <> 0
+     ejecurar PROCESO_PRINCIPAL
+  fin_mientras    
+  ejecutar PROCESO_FINAL
+fin

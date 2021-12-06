@@ -23,6 +23,13 @@ registro REG_FORMULA
 fin_registro
 prefijo FOR
 
+archivo ORDEN 
+registro REG_ORDEN
+  NRO_ORDEN         es numérico
+  COD_FORMULA       es numérico
+  CANTIDAD          es numérico
+  APROBADA          es alfanumérico
+
 CUERPO PRINCIPAL:
 inicio
   ejecurar PROCESO_INICIAL
@@ -31,3 +38,45 @@ inicio
   fin_mientras    
   ejecutar PROCESO_FINAL
 fin
+PROCESO_INICIAL:
+  imprimir "Mantenimiento de Formulas"
+  ejecutar ABRIR_ARCHIVOS
+  ejecutar INGRESAR_COD_FORMULA
+retorno
+
+PROCESO_PRINCIPAL:
+  ejecutar LEER_FORMULA
+  si existe (FORMULA)
+    ejecutar LEER_MATPRIMA
+    si existe (MATPRIMA)
+       mientras W_COD_MATPRI = 0
+          INGRESAR_COD_FORMULA
+       fin_mientras
+       ejecutar INGRESAR_OPCION_MANTENIMIENTO
+       si W_OPCION = "B"
+         ejecutar BAJA_MATEPRI
+       sino
+        si W_OPCION = "M"
+           ejecutar MODIFICACION_FOR
+        fin_si
+        sino
+           ejecutar BAJA_COMPLETA
+        fin_si   
+     sino
+        ejecutar ALTA_MATEPRI
+     fin_si
+   sino
+      imprimir "Error, la formula no existe"
+   fin_si
+retorno
+
+PROCESO_FINAL:
+  ejecutar CERRAR_ARCHIVOS
+  imrpmir "** FIN DEL PROCESO **"
+retorno
+** RUTINAS PRINCIPALES **
+ABRIR_ARCHIVOS:
+  ejecutar ABRIR_ARCHIVO_FORMULA
+  ejecutar ABRIR_ARCHIVO_MATPRIMA
+  ejecutar ABRIR_ARCHIVO_ORDEN
+retorno

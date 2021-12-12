@@ -150,3 +150,47 @@ INGRESAR_CONFIRMACION:
     ingresar " ¿Confirma la operacion? (S/N): ", W_RESPUESTA
   hasta   W_RESPUESTA = "S" or "N"
 retorno
+
+** RUTINAS PARA ACCESO DE ARCHIVOS**
+ABRIR_ARCHIVO_MATPRIMA
+  abrir MATPRIMA
+retorno
+
+ABRIR_ARCHIVO_FORMULA
+  abrir FORMULA
+retorno
+
+ABRIR_ARCHIVO_ORDEN
+  abrir ORDEN
+retorno
+
+LEER_FORMULA:
+  FOR_COD_FORMULA = W_COD_FORMULA
+  clave COD_FORMULA + COD_MATPRI
+  leer REG_FORMULA
+retorno
+
+UBICAR_ORDEN_CLAVE:
+  ORD_COD_FORMULA = W_COD_FORMULA
+  clave NRO_ORDEN + COD_FORMULA
+  ubicar REG_ORDEN
+  ejecutar LEER_SGTE_ORDEN
+retorno
+
+LEER_SGTE_ORDEN:
+  si eof (ORDEN) = 0
+     ORD_COD_FORMULA = 0
+  sino
+      leer REG_ORDEN
+   fin_si
+retorno
+
+CERRAR_ARCHIVO_MATEPRI  
+  cerrar MATPRIMA
+retorno
+CERRAR_ARCHIVO_FORMULA
+  cerrar FORMULA
+retorno  
+CERRAR_ARCHIVO_ORDEN
+  cerrar ORDEN
+retorno  

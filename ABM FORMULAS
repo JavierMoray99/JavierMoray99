@@ -80,3 +80,34 @@ ABRIR_ARCHIVOS:
   ejecutar ABRIR_ARCHIVO_MATPRIMA
   ejecutar ABRIR_ARCHIVO_ORDEN
 retorno
+
+ALTA_MATEPRI:
+  ingresar "Desea ingresar la materia prima de esta formula?, ¿Desea agregarlo? (S/N):", W_RESPUESTA
+  ejecutar INGRESAR_DATOS_MATEPRI
+    ejecutar INGRESAR_CONFIRMACION
+  si W_RESPUESTA = "S"
+     grabar REG_MATPRIMA
+  fin_si
+retorno
+BAJA_MATEPRI:
+  ejecutar UBICAR_FORMULA_CLAVE2
+  mientas FOR_COD_MATPRI = W_COD_FORMULA
+      ejecutar INGRESAR_CONFIRMACION
+      si W_RESPUESTA = "S"
+          borrar REG_MATPRIMA
+    fin_si
+  fin_mientras
+retorno
+MODIFICACION_FOR:
+  ingresar "Ingrese la nueva cantidad unitaria:", FOR_CANT_UNITARIA
+  si W_RESPUESTA = "S"
+    regrabar REG_FORMULA
+  fin_si
+retorno
+BAJA_COMPLETA:
+
+CERRAR_ARCHIVOS:
+  ejecutar CERRAR_ARCHIVO_MATPRIMA
+  ejecutar CERRAR_ARCHIVO_FORMULA
+  ejecutar CERRAR_ARCHIVO_ORDEN
+retorno

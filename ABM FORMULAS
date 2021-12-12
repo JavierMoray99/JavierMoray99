@@ -105,9 +105,48 @@ MODIFICACION_FOR:
   fin_si
 retorno
 BAJA_COMPLETA:
-
+  ejecutar LEER_FORMULA
+  ejecutar UBICAR_ORDEN_CLAVE
+  si ORD_COD_FORMULA = W_COD_FORMULA
+      imprimir "ATENCION: La formula se encuentra en una orden de produccion"
+  sino
+      ejecutar INGRESAR_CONFIRMACION
+      si W_RESPUESTA = "S"
+          borrar REG_FORMULA
+      fin_si
+   fin_si
+retorno   
 CERRAR_ARCHIVOS:
   ejecutar CERRAR_ARCHIVO_MATPRIMA
   ejecutar CERRAR_ARCHIVO_FORMULA
   ejecutar CERRAR_ARCHIVO_ORDEN
+retorno
+
+** RUTINAS PARA INGRESO DE DATOS  **
+INGRESAR_COD_FORMULA:
+  ingresar "Codigo de la formula (ENTER P/ FIN):", W_COD_FORMULA
+retorno
+
+INGRESAR_DATOS_MATEPRI:
+   ejecutar INGRESAR_DESCRIPCION_MATEPRI
+   ejecutar INGRESAR_UNIDAD_MEDIDA
+   ejecutar INGRESAR_COSTO
+retorno
+
+INGRESAR_OPCION_MANTENIMIENTO:
+  repetir
+    ingresar "Desea Baja (B), Modificacion (M) o Baja Completa (BC): ", W_OPCION
+  hasta  W_OPCION = "B" or "M" or "BC"
+retorno
+
+INGRESAR_CONFIRMACION:
+  repetir
+    ingresar " ¿Confirma la operacion? (S/N): ", W_RESPUESTA
+  hasta   W_RESPUESTA = "S" or "N"
+retorno
+
+INGRESAR_CONFIRMACION:
+  repetir
+    ingresar " ¿Confirma la operacion? (S/N): ", W_RESPUESTA
+  hasta   W_RESPUESTA = "S" or "N"
 retorno

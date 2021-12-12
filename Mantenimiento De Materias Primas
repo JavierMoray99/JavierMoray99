@@ -132,7 +132,7 @@ retorno
 INGRESAR_OPCION_MANTENIMIENTO:
   repetir
     ingresar "Desea Baja (B), Modificacion (M) o Consulta (C): ", W_OPCION
-  hasta   W_OPCION = "S" or "N"
+  hasta   W_OPCION = "B" or "M" or "C"
 retorno
 
 INGRESAR_CONFIRMACION:

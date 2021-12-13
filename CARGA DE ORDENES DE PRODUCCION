@@ -1,0 +1,165 @@
+Objetivo:
+ CARGA DE ORDENES DE PRODUCCION
+
+Entorno
+  W_NRO_ORDEN     es numérico
+  W_OPCION          es numérico
+  W_RESPUESTA       es numérico
+  
+  archivo ORDEN 
+registro REG_ORDEN
+  NRO_ORDEN         es numérico
+  COD_FORMULA       es numérico
+  CANTIDAD          es numérico
+  APROBADA          es alfanumérico
+fin_registro
+prefijo ORD
+
+arhivo FORMULA
+registro REG_FORMULA
+  COD_FORMULA       es numérico
+  COD_MATPRI        es numérico
+  CANT_UNITARIA     es numérico
+fin_registro
+prefijo FOR
+
+CUERPO PRINCIPAL:
+inicio
+  ejecurar PROCESO_INICIAL
+  mientras W_NRO_ORDEN <> 0
+     ejecurar PROCESO_PRINCIPAL
+  fin_mientras    
+  ejecutar PROCESO_FINAL
+fin
+
+RUTINAS
+
+PROCESO_INICIAL:
+  imprimir "CARGA DE ORDENES DE PRODUCCION"
+  ejecutar ABRIR_ARCHIVOS
+  ejecutar INGRESAR_COD_ORDEN
+retorno
+
+PROCESO_PRINCIPAL:
+  ejecutar LEER_ORDEN
+  si existe (ORDEN) and ORD_APROBADA = "S"
+     imprimir "La  orden ya existe, favor volver a ingresar el nro de orden"
+     ejecutar LEER_ORDEN
+   sino
+      ejecutar INGRESAR_COD_FOR
+      mientras W_COD_FORMULA = 0
+        ejecutar INGRESAR_COD_ORDEN
+        ejecutar UBICAR_ORDEN
+        si ORD_COD_FORMULA = W_COD_FORMULA
+             ejecutar INGRESAR_OPCION_MANTENIMIENTO
+             si W_OPCION = "B"
+                ejecutar BAJA_ORDEM
+             sino
+                ejecutar MODIFICAR_CANTIDAD
+             fin_si
+         sino
+             INGRESAR_ALTA_ORDEN
+         fin_si
+      fin_mientras
+   fin_si
+retorno
+
+PROCESO_FINAL:
+  ejecutar CERRAR_ARCHIVOS
+  imrpmir "** FIN DEL PROCESO **"
+retorno
+
+** RUTINAS PRINCIPALES **
+
+ABRIR_ARCHIVOS:
+  ejecutar ABRIR_ARCHIVO_ORDEN
+  ejecutar ABRIR_ARCHIVO_FORMULA
+retorno
+
+BAJA_ORDEN:
+  ejecutar UBICAR_ORDEN
+  mientras ORD_COD_FORMULA = W_COD_FORMULA
+     ejecutar INGRESAR_CONFIRMACION
+      si W_RESPUESTA = "S"
+          borrar REG_ORDEN
+    fin_si
+  fin_mientras
+retorno
+
+MODIFICAR_CANTIDAD:
+   ingresar "Ingrese la nueva cantidad a elaborar:", ORD_CANTIDAD
+  si W_RESPUESTA = "S"
+    regrabar REG_ORDEN
+  fin_si
+retorno
+
+INGRESAR_ALTA_ORDEN:
+  ingresar "Ingrese la cantidad a elaborar:", ORD_CANTIDAD
+  ORD_APROBADA = "N"
+retorno
+
+CERRAR_ARCHIVOS:
+  ejecutar CERRAR_ARCHIVO_ORDEN
+  ejecutar CERRAR_ARCHIVO_FORMULA
+retorno
+
+** RUTINAS PARA INGRESO DE DATOS  **
+
+INGRESAR_COD_ORDEN:
+  ingresar "Codigo de Orden de Produccion (ENTER P/ FIN):", W_COD_FORMULA
+retorno
+
+INGRESAR_COD_FOR:
+  ingresar "Codigo de la formula (ENTER P/ FIN):", W_COD_FORMULA
+retorno
+
+INGRESAR_OPCION_MANTENIMIENTO:
+  repetir
+    ingresar "Desea Baja (B) o Modificacion (M): ", W_OPCION
+  hasta   W_OPCION = "B" or "M"
+retorno
+
+INGRESAR_CONFIRMACION:
+  repetir
+    ingresar " ¿Confirma la operacion? (S/N): ", W_RESPUESTA
+  hasta   W_RESPUESTA = "S" or "N"
+retorno
+
+** RUTINAS PARA ACCESO DE ARCHIVOS**
+
+ABRIR_ARCHIVO_FORMULA
+  abrir FORMULA
+retorno
+
+ABRIR_ARCHIVO_ORDEN
+  abrir ORDEN
+retorno
+
+LEER_ORDEN:
+  ORDEN_CNRO_ORDEN = W_NRO_COD_ORDEN
+   NRO_ORDEN + COD_FORMULA
+  leer REG_ORDEN
+retorno
+
+UBICAR_ORDEN:
+  ORD_RO_ORDEN  = W_COD_ORDEN
+  clave NRO_ORDEN + COD_FORMULA
+  ubicar REG_ORDEN
+  ejecutar LEER_SGTE_ORDEN
+retorno
+
+LEER_SGTE_ORDEN:
+  si eof (ORDEN) = 0
+     ORD_COD_FORMULA = 0
+  sino
+      leer REG_ORDEN
+   fin_si
+retorno
+
+CERRAR_ARCHIVO_ORDEN
+  cerrar ORDEN
+retorno  
+
+CERRAR_ARCHIVO_FORMULA
+  cerrar FORMULA
+retorno 
